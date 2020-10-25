@@ -1,0 +1,89 @@
+
+
+.button {
+  -fx-font-size: 16px;
+  -fx-font-weight: bold;
+  -fx-font-style: italic;
+  -fx-text-fill: #000000;
+}
+
+.menu{
+	-fx-min-width: 100px;
+	-fx-min-height: 30px;
+}
+
+.menu .label {
+  -fx-font-size: 16px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #800080;
+  -fx-border-width: 0px;
+}
+
+.vbox {
+	-fx-padding: 50px;
+	-fx-spacing: 50px;
+}
+.hbox {
+	-fx-padding: 50px;
+	-fx-spacing: 50px;
+}
+.button {
+	-fx-min-width: 150px;
+	-fx-min-height: 30px;
+}
+.textFiled{
+	-fx-min-width: 150px;
+	-fx-min-height: 30px;
+	 -fx-font-size: 16px;
+  //-fx-font-weight: bold;
+  -fx-font-style: italic;
+  -fx-text-fill: black;
+	-fx-border-insets: 2px;
+	-fx-border-color: grey;
+	-fx-border-width: 1px;
+	
+}
+
+.label{
+	-fx-min-width: 150px;
+	-fx-min-height: 30px;
+	 -fx-font-size: 16px;
+  //-fx-font-weight: bold;
+  -fx-font-style: italic;
+  -fx-text-fill: black;
+	-fx-border-insets: 2px;
+	-fx-border-color: grey;
+	-fx-border-width: 1px;
+}
+
+#countryPane {
+	-fx-min-width: 300px;
+	-fx-min-height: 155px;
+	
+	-fx-border-insets: 5px;
+	-fx-border-color: black;
+	-fx-border-width: 2px;
+	-fx-background-color: pink;
+}
+#statePane {
+	-fx-min-width: 300px;
+	-fx-min-height: 155px;
+	
+	-fx-border-insets: 5px;
+	-fx-border-color: black;
+	-fx-border-width: 2px;
+	-fx-background-color: pink;
+}
+
+#countryControlsBox {
+	-fx-border-insets: 5px;
+	-fx-border-color: black;
+	-fx-border-width: 2px;
+	-fx-background-color: red;
+}
+#stateControlsBox {
+	-fx-border-insets: 5px;
+	-fx-border-color: black;
+	-fx-border-width: 2px;
+	-fx-background-color: red;
+}
