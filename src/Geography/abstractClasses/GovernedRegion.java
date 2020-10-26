@@ -3,18 +3,18 @@ package Geography.abstractClasses;
 import Geography.appClasses.Government;
 
 public abstract class GovernedRegion {
-	private int area;
-	private int population;
+	private double area;
+	private double population;
 	private Government government;
 
-	public GovernedRegion(int area, int population, Government government) {
+	public GovernedRegion(double area, double population, Government government) {
 		this.area = area;
 		this.population = population;
 		this.government = government;
 
 	}
 
-	public int getArea() {
+	public double getArea() {
 		return area;
 	}
 
@@ -22,7 +22,7 @@ public abstract class GovernedRegion {
 		this.area = area;
 	}
 
-	public int getPopulation() {
+	public double getPopulation() {
 		return population;
 	}
 

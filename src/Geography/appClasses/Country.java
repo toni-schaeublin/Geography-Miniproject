@@ -8,7 +8,7 @@ public class Country extends GovernedRegion {
 	private State state;
 	private String stateName;
 
-	public Country(int area, int population, Government government, String nameOfCountry) {
+	public Country(double area, double population, Government government, String nameOfCountry) {
 		super(area, population, government);
 		this.nameOfCountry = nameOfCountry;
 		this.states = new States();
