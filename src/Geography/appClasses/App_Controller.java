@@ -31,11 +31,4 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		serviceLocator = ServiceLocator.getServiceLocator();
 		serviceLocator.getLogger().info("Application controller initialized");
 	}
-
-	public void buttonClick() {
-		model.incrementValue();
-		String newText = Integer.toString(model.getValue());
-
-		view.lblNumber.setText(newText);
-	}
 }

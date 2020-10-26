@@ -10,6 +10,9 @@
 .menu{
 	-fx-min-width: 100px;
 	-fx-min-height: 30px;
+	-fx-border-insets: 2px;
+	-fx-border-color: #800080;
+	-fx-border-width: 1px;
 }
 
 .menu .label {
@@ -31,22 +34,30 @@
 	-fx-min-width: 150px;
 	-fx-min-height: 30px;
 }
-.textFiled{
-	-fx-min-width: 150px;
-	-fx-min-height: 30px;
-	 -fx-font-size: 16px;
-  //-fx-font-weight: bold;
+	.text-field {
+  -fx-alignment: center-right;
+   -fx-min-width: 150;
+    -fx-min-height: 35;
   -fx-font-style: italic;
   -fx-text-fill: black;
 	-fx-border-insets: 2px;
 	-fx-border-color: grey;
 	-fx-border-width: 1px;
+}
+	
+	
+.combo-box{
+	-fx-min-width: 170px;
+	-fx-min-height: 30px;
+	 -fx-font-size: 16px;
+  //-fx-font-weight: bold;
+  -fx-font-style: italic;
+  -fx-text-fill: black;
 	
 }
-
 .label{
 	-fx-min-width: 150px;
-	-fx-min-height: 30px;
+	-fx-min-height: 35px;
 	 -fx-font-size: 16px;
   //-fx-font-weight: bold;
   -fx-font-style: italic;
@@ -59,31 +70,29 @@
 #countryPane {
 	-fx-min-width: 300px;
 	-fx-min-height: 155px;
-	
 	-fx-border-insets: 5px;
 	-fx-border-color: black;
 	-fx-border-width: 2px;
-	-fx-background-color: pink;
+	-fx-background-color: light grey;
 }
 #statePane {
 	-fx-min-width: 300px;
 	-fx-min-height: 155px;
-	
 	-fx-border-insets: 5px;
 	-fx-border-color: black;
 	-fx-border-width: 2px;
-	-fx-background-color: pink;
+	-fx-background-color: light grey;
 }
 
 #countryControlsBox {
 	-fx-border-insets: 5px;
 	-fx-border-color: black;
 	-fx-border-width: 2px;
-	-fx-background-color: red;
+	-fx-background-color: #800080;
 }
 #stateControlsBox {
 	-fx-border-insets: 5px;
 	-fx-border-color: black;
 	-fx-border-width: 2px;
-	-fx-background-color: red;
+	-fx-background-color: #800080;
 }
