@@ -15,11 +15,16 @@ public class States {
 
 	}
 
+	public State getState(int index) {
+		return states.get(index);
+	}
+
 	public int getSize() {
 		int size = this.states.size();
 		return size;
 
 	}
+
 //Entfernt einen Staat aus der Liste states sofern dieser vorhanden ist
 	public String removeState(String stateName) {
 		this.stateName = stateName;

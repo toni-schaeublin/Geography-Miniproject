@@ -3,6 +3,8 @@ package Geography;
 import Geography.appClasses.App_Controller;
 import Geography.appClasses.App_Model;
 import Geography.appClasses.App_View;
+import Geography.appClasses.Government;
+import Geography.appClasses.State;
 import Geography.splashScreen.Splash_Controller;
 import Geography.splashScreen.Splash_Model;
 import Geography.splashScreen.Splash_View;
@@ -102,6 +104,13 @@ public class JavaFX_App_Template extends Application {
         // Splash_XXX objects can be garbage collected
         splashView.stop();
         splashView = null;
+        //Globale Listen zum Speichern von States und Countries initialisieren
+        model.initializeGlobalLists();
+
+           
+        
+        
+        
 
         view.start();
     }

@@ -14,6 +14,10 @@ public class Countries {
 		this.countries.add(country);
 	}
 
+	public Country getCountry(int index) {
+		return countries.get(index);
+	}
+
 	public int getSize() {
 		int size = this.countries.size();
 		return size;
