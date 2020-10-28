@@ -19,6 +19,47 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 	public App_Controller(App_Model model, App_View view) {
 		super(model, view);
+		
+		view.txtName.textProperty().addListener(
+				(observable, oldValue, newValue) -> {
+				if (newValue !="") {
+					 txtNameTest = true;
+				}
+				});
+		
+				
+		view.txtArea.textProperty().addListener(
+				(observable, oldValue, newValue) -> {
+					if (isNumeric(newValue)) {
+						 txtAreaTest = true;
+					}
+				});
+				
+		
+		view.txtPopulation.textProperty().addListener(
+				(observable, oldValue, newValue) -> {
+					if (isNumeric(newValue)) {
+						 txtPopulationTest = true;
+					}
+				});
+		
+	}
+
+
+	public static boolean isNumeric(String value) {
+
+		try {
+
+		int number = Integer.parseInt(value);
+
+		 return true;
+
+		} catch (NumberFormatException e) {
+
+		 return false;
+
+		}
+
 
 		// register ourselves to handle window-closing event
 		view.getStage().setOnCloseRequest(new EventHandler<WindowEvent>() {
