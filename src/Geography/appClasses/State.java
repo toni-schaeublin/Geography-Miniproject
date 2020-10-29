@@ -6,7 +6,7 @@ public class State extends GovernedRegion {
 	private String country;
 	private String nameOfState;
 
-	public State(double area, double population, Government government, String nameOfState, String country) {
+	public State(int area, int population, Government government, String nameOfState, String country) {
 		super(area, population, government);
 		this.nameOfState= nameOfState;
 		this.country = country;
