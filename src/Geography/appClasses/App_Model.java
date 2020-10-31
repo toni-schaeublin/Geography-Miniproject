@@ -46,6 +46,7 @@ public class App_Model extends Model {
 		globalCountryList.addCountry(country);
 	}
 	
+	
 	public void addStateToGlobalList(State state) {
 		globalStateList.addState(state);
 	}

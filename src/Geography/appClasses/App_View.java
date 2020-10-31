@@ -71,6 +71,8 @@ public class App_View extends View<App_Model> {
 	Button btnDeleteState;
 	Button btnClearState;
 	Button btnUpdateState;
+	//Label für Status
+	Label status;
 
 	public App_View(Stage stage, App_Model model) {
 		super(stage, model);
@@ -109,6 +111,14 @@ public class App_View extends View<App_Model> {
 		root.getChildren().add(getStateControlBtnPane());
 		// Create HBox for Status
 		HBox statusBox = new HBox();
+		status=new Label();
+		statusBox.getChildren().add(status);
+		root.getChildren().add(statusBox);
+		status.setId("statusLbl");
+		status.setText("Status");
+		
+	
+		
 
 		updateTexts();
 

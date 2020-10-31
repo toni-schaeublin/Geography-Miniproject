@@ -18,10 +18,9 @@ import javafx.stage.WindowEvent;
  * @author Brad Richards
  */
 
-
-public class App_Controller extends Controller<App_Model, App_View>{
+public class App_Controller extends Controller<App_Model, App_View> {
 	ServiceLocator serviceLocator;
-	
+
 	private boolean txtNameTest = false;
 	private int countryArea;
 	private boolean populationTest = false;
@@ -30,23 +29,31 @@ public class App_Controller extends Controller<App_Model, App_View>{
 	private String nameOfCountry;
 	private Government government;
 	private String txtGovernment;
-	Country country;
+	private Country country;
+	private States statesArray = new States();
+	private Countries countries;
 
 	public App_Controller(App_Model model, App_View view) {
 		super(model, view);
-		
+
 		view.txtName.textProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue != "") {
+			if (newValue != "" & newValue.length() > 2) {
 				txtNameTest = true;
 				nameOfCountry = newValue;
-				
+			} else {
+				txtNameTest = false;
 			}
 		});
-		
+
 		view.txtArea.textProperty().addListener((observable, oldValue, newValue) -> {
-			if (isNumeric(newValue)) {
+			if (isNumeric(newValue)&&newValue!="") {
 				txtAreaTest = true;
-				countryArea=Integer.parseInt(newValue);
+				countryArea = Integer.parseInt(newValue);
+				view.status.setText("");
+			} else {
+				txtAreaTest = false;
+				//muss noch mehrsprachig gemacht werden!
+				view.status.setText("Bitte eine gültige Zahl eingeben");
 			}
 		});
 
@@ -54,14 +61,18 @@ public class App_Controller extends Controller<App_Model, App_View>{
 			if (isNumeric(newValue)) {
 				populationTest = true;
 				countryPopulation = Integer.parseInt(newValue);
+				view.status.setText("");
+			} else {
+				populationTest = false;
+				//muss noch mehrsprachig gemacht werden!
+				view.status.setText("Bitte eine gültige Zahl eingeben");
 			}
 		});
-		
-		view.cmbGovernment.getSelectionModel().selectedItemProperty().addListener( (options, oldValue, newValue) -> {
-	           government=newValue;
-	    }
-	    ); 
-		
+
+		view.cmbGovernment.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+			government = newValue;
+		});
+
 		// register ourselves to handle window-closing event
 		view.getStage().setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
@@ -69,7 +80,7 @@ public class App_Controller extends Controller<App_Model, App_View>{
 				Platform.exit();
 			}
 		});
-		//Button soll in Action 
+		// Button soll in Action
 		view.btnAddCountry.setOnAction(this::addCountry);
 
 		serviceLocator = ServiceLocator.getServiceLocator();
@@ -90,18 +101,23 @@ public class App_Controller extends Controller<App_Model, App_View>{
 
 		}
 	}
+
 //Fügt der globalCountryList ein Land hinzu, wenn der Button addCountry gedrückt wird
 	public void addCountry(ActionEvent e) {
-		if(e.getSource() == view.btnAddCountry) {
-		country = new Country(countryArea, countryPopulation, government, nameOfCountry);
-		model.addCountryToGlobalList(country);
-		System.out.println(country.getNameOfCountry());
-	
-		}
-		
-		
+		if (e.getSource() == view.btnAddCountry&&txtNameTest&&populationTest&&txtAreaTest) {
+			country = new Country(countryArea, countryPopulation, government, nameOfCountry);
+			model.addCountryToGlobalList(country);
+			countries = model.getGlobalCountries();
+			//Testausgabe der Ländernamen aus Array...
+			int size = countries.getSize();
+			for (int i = 0; i < size; i++) {
+				System.out.println(countries.getCountry(i).getNameOfCountry());
+
+			}
+
+		}else
+			view.status.setText("Bitte alle Felder korrekt ausfüllen");
+
 	}
-	
-			
-	
+
 }
