@@ -90,7 +90,7 @@ public class App_Controller extends Controller<App_Model, App_View>{
 
 		}
 	}
-
+//Fügt der globalCountryList ein Land hinzu, wenn der Button addCountry gedrückt wird
 	public void addCountry(ActionEvent e) {
 		if(e.getSource() == view.btnAddCountry) {
 		country = new Country(countryArea, countryPopulation, government, nameOfCountry);
