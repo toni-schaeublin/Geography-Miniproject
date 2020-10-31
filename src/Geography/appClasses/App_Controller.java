@@ -6,6 +6,7 @@ import Geography.ServiceLocator;
 import Geography.abstractClasses.Controller;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.stage.WindowEvent;
 
@@ -16,18 +17,26 @@ import javafx.stage.WindowEvent;
  * 
  * @author Brad Richards
  */
-public class App_Controller extends Controller<App_Model, App_View> {
+
+
+public class App_Controller extends Controller<App_Model, App_View> implements EventHandler <ActionEvent> {
 	ServiceLocator serviceLocator;
+	
+	private boolean txtNameTest = false;
+	private boolean txtPopulationTest = false;
+	private boolean txtAreaTest = false;
+	Countries countryTest = new Countries();
 
 	public App_Controller(App_Model model, App_View view) {
 		super(model, view);
-
+		
 		view.txtName.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue != "") {
 				txtNameTest = true;
+				
 			}
 		});
-
+		
 		view.txtArea.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (isNumeric(newValue)) {
 				txtAreaTest = true;
@@ -47,6 +56,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				Platform.exit();
 			}
 		});
+		//Button soll in Action 
+		view.btnAddCountry.setOnAction(this);
 
 		serviceLocator = ServiceLocator.getServiceLocator();
 		serviceLocator.getLogger().info("Application controller initialized");
@@ -66,4 +77,16 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 		}
 	}
+
+	@Override
+	public void handle(ActionEvent e) {
+		if(e.getSource() == view.btnAddCountry) {
+			countryTest.addCountry();
+		}
+		
+		
+	}
+	
+			
+	
 }

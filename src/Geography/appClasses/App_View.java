@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import Geography.ServiceLocator;
 import Geography.abstractClasses.View;
 import Geography.commonClasses.Translator;
+import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -48,10 +49,10 @@ public class App_View extends View<App_Model> {
 	ComboBox<States> cmbStates;
 	// Buttons für countryControlPane
 	GridPane countryControlBtnPane;
-	Button btnAddCountry;
-	Button btnDeleteCountry;
-	Button btnClearCountry;
-	Button btnUpdateCountry;
+	public Button btnAddCountry;
+	public Button btnDeleteCountry;
+	public Button btnClearCountry;
+	public Button btnUpdateCountry;
 	// Variablen für statePane
 	GridPane statePane;
 	Label lblStateName;
@@ -235,4 +236,6 @@ public class App_View extends View<App_Model> {
 		stateControlBtnPane.add(btnClearState, 3, 0);
 		return stateControlBtnPane;
 	}
+
+	
 }
