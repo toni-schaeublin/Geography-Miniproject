@@ -23,8 +23,13 @@ public class App_Controller extends Controller<App_Model, App_View> implements E
 	ServiceLocator serviceLocator;
 	
 	private boolean txtNameTest = false;
+	private int txtArea;
 	private boolean txtPopulationTest = false;
+	private int txtPopulation;
 	private boolean txtAreaTest = false;
+	private String txtNameOfCountry;
+	private Government government;
+	private String txtGovernment;
 	Countries countryTest = new Countries();
 
 	public App_Controller(App_Model model, App_View view) {
@@ -33,6 +38,7 @@ public class App_Controller extends Controller<App_Model, App_View> implements E
 		view.txtName.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue != "") {
 				txtNameTest = true;
+				txtNameOfCountry = newValue;
 				
 			}
 		});
@@ -40,15 +46,17 @@ public class App_Controller extends Controller<App_Model, App_View> implements E
 		view.txtArea.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (isNumeric(newValue)) {
 				txtAreaTest = true;
+				txtArea=Integer.parseInt(newValue);
 			}
 		});
 
 		view.txtPopulation.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (isNumeric(newValue)) {
 				txtPopulationTest = true;
+				txtPopulation = Integer.parseInt(newValue);
 			}
 		});
-
+		
 		// register ourselves to handle window-closing event
 		view.getStage().setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
@@ -57,7 +65,7 @@ public class App_Controller extends Controller<App_Model, App_View> implements E
 			}
 		});
 		//Button soll in Action 
-		view.btnAddCountry.setOnAction(this);
+		view.btnAddCountry.setOnAction(this::addCountry);
 
 		serviceLocator = ServiceLocator.getServiceLocator();
 		serviceLocator.getLogger().info("Application controller initialized");
@@ -78,10 +86,13 @@ public class App_Controller extends Controller<App_Model, App_View> implements E
 		}
 	}
 
-	@Override
-	public void handle(ActionEvent e) {
+	public void addCountry(ActionEvent e) {
 		if(e.getSource() == view.btnAddCountry) {
-			countryTest.addCountry();
+		government= view.cmbGovernment.getSelectedItem();
+			model.addCountry(txtArea, txtPopulation, 
+					txtGovernment, txtNameOfCountry);
+			//countryTest.addCountry(m.getCountry());
+			//updateView
 		}
 		
 		
