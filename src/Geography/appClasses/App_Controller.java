@@ -19,18 +19,18 @@ import javafx.stage.WindowEvent;
  */
 
 
-public class App_Controller extends Controller<App_Model, App_View> implements EventHandler <ActionEvent> {
+public class App_Controller extends Controller<App_Model, App_View>{
 	ServiceLocator serviceLocator;
 	
 	private boolean txtNameTest = false;
-	private int txtArea;
-	private boolean txtPopulationTest = false;
-	private int txtPopulation;
+	private int countryArea;
+	private boolean populationTest = false;
+	private int countryPopulation;
 	private boolean txtAreaTest = false;
-	private String txtNameOfCountry;
+	private String nameOfCountry;
 	private Government government;
 	private String txtGovernment;
-	Countries countryTest = new Countries();
+	Country country;
 
 	public App_Controller(App_Model model, App_View view) {
 		super(model, view);
@@ -38,7 +38,7 @@ public class App_Controller extends Controller<App_Model, App_View> implements E
 		view.txtName.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue != "") {
 				txtNameTest = true;
-				txtNameOfCountry = newValue;
+				nameOfCountry = newValue;
 				
 			}
 		});
@@ -46,16 +46,21 @@ public class App_Controller extends Controller<App_Model, App_View> implements E
 		view.txtArea.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (isNumeric(newValue)) {
 				txtAreaTest = true;
-				txtArea=Integer.parseInt(newValue);
+				countryArea=Integer.parseInt(newValue);
 			}
 		});
 
 		view.txtPopulation.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (isNumeric(newValue)) {
-				txtPopulationTest = true;
-				txtPopulation = Integer.parseInt(newValue);
+				populationTest = true;
+				countryPopulation = Integer.parseInt(newValue);
 			}
 		});
+		
+		view.cmbGovernment.getSelectionModel().selectedItemProperty().addListener( (options, oldValue, newValue) -> {
+	           government=newValue;
+	    }
+	    ); 
 		
 		// register ourselves to handle window-closing event
 		view.getStage().setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -88,11 +93,10 @@ public class App_Controller extends Controller<App_Model, App_View> implements E
 
 	public void addCountry(ActionEvent e) {
 		if(e.getSource() == view.btnAddCountry) {
-		government= view.cmbGovernment.getSelectedItem();
-			model.addCountry(txtArea, txtPopulation, 
-					txtGovernment, txtNameOfCountry);
-			//countryTest.addCountry(m.getCountry());
-			//updateView
+		country = new Country(countryArea, countryPopulation, government, nameOfCountry);
+		model.addCountryToGlobalList(country);
+		System.out.println(country.getNameOfCountry());
+	
 		}
 		
 		

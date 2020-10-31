@@ -41,6 +41,14 @@ public class App_Model extends Model {
 	public Countries getGlobalCountries() {
 		return globalCountryList;
 	}
+	
+	public void addCountryToGlobalList(Country country) {
+		globalCountryList.addCountry(country);
+	}
+	
+	public void addStateToGlobalList(State state) {
+		globalStateList.addState(state);
+	}
 
 	public void initializeGlobalLists() {
 		State state = new State(0, 0, Government.none, "", "");
