@@ -55,7 +55,7 @@ public class App_Model extends Model {
 		State state = new State(0, 0, Government.none, "", "");
 		globalStateList = new States();
 		globalStateList.addState(state);
-		Country country = new Country(0, 0, Government.none, "");
+		Country country = new Country(0, 0, Government.none, "",globalStateList);
 		globalCountryList = new Countries();
 		globalCountryList.addCountry(country);
 	}

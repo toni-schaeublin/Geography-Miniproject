@@ -71,7 +71,7 @@ public class App_View extends View<App_Model> {
 	Button btnDeleteState;
 	Button btnClearState;
 	Button btnUpdateState;
-	//Label für Status
+	// Label für Status
 	Label status;
 
 	public App_View(Stage stage, App_Model model) {
@@ -111,14 +111,11 @@ public class App_View extends View<App_Model> {
 		root.getChildren().add(getStateControlBtnPane());
 		// Create HBox for Status
 		HBox statusBox = new HBox();
-		status=new Label();
+		status = new Label();
 		statusBox.getChildren().add(status);
 		root.getChildren().add(statusBox);
 		status.setId("statusLbl");
 		status.setText("Status");
-		
-	
-		
 
 		updateTexts();
 
@@ -148,21 +145,20 @@ public class App_View extends View<App_Model> {
 		btnDeleteCountry.setText(t.getString("country.button.delete"));
 		btnUpdateCountry.setText(t.getString("country.button.refresh"));
 		btnClearCountry.setText(t.getString("country.button.clear"));
-		
-		//State Labels
+
+		// State Labels
 		lblStateName.setText(t.getString("program.state.lbl.state"));
 		lblStateArea.setText(t.getString("program.state.lbl.area"));
 		lblStatePopulation.setText(t.getString("program.state.lbl.population"));
 		lblStateGovernment.setText(t.getString("program.state.lbl.government"));
 		lblBelongsToCountry.setText(t.getString("program.state.lbl.country"));
-		
-		//STate controls
+
+		// State controls
 		btnAddState.setText(t.getString("state.button.add"));
 		btnDeleteState.setText(t.getString("state.button.delete"));
 		btnUpdateState.setText(t.getString("state.button.refresh"));
 		btnClearState.setText(t.getString("state.button.clear"));
 
-		
 	}
 
 	private Pane getCountryPane() {
@@ -228,11 +224,12 @@ public class App_View extends View<App_Model> {
 		statePane.add(lblStatePopulation, 0, 2);
 		statePane.add(txtStatePopulation, 1, 2);
 		statePane.add(lblStateGovernment, 0, 3);
-		statePane.add(cmbStatesGovernment, 1, 3);
 		statePane.add(lblBelongsToCountry, 0, 4);
+		statePane.add(cmbStatesGovernment, 1, 3);
 		statePane.add(cmbCountries, 1, 4);
 		return statePane;
 	}
+
 	private Pane getStateControlBtnPane() {
 		stateControlBtnPane = new GridPane();
 		stateControlBtnPane.setId("stateControlsBox");
@@ -247,5 +244,4 @@ public class App_View extends View<App_Model> {
 		return stateControlBtnPane;
 	}
 
-	
 }

@@ -6,13 +6,23 @@ public class Country extends GovernedRegion {
 	private String nameOfCountry;
 	private States states;
 	private State state;
+	private States globalStates;
 	private String stateName;
+	private Countries countries;
 
-	public Country(int area, int population, Government government, String nameOfCountry) {
+	public Country(int area, int population, Government government, String nameOfCountry, States globalStates) {
 		super(area, population, government);
+		this.globalStates = globalStates;
 		this.nameOfCountry = nameOfCountry;
 		this.states = new States();
+		int size = this.globalStates.getSize();
+		for (int i = 0; i < size; i++) {
+			State state=this.globalStates.getState(i);
+			if (state.getCountry().equalsIgnoreCase(this.nameOfCountry)) {
+				this.addStateToCountry(globalStates.getState(i));
+			}
 
+		}
 	}
 
 	public String getNameOfCountry() {
@@ -36,6 +46,5 @@ public class Country extends GovernedRegion {
 		String notification = this.states.removeState(stateName);
 		return notification;
 	}
-
 
 }

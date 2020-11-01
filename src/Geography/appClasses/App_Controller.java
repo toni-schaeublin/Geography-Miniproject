@@ -6,7 +6,6 @@ import Geography.ServiceLocator;
 import Geography.abstractClasses.Controller;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.stage.WindowEvent;
 
@@ -71,6 +70,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 		view.cmbGovernment.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
 			government = newValue;
+			view.updateTexts();
 		});
 
 		// register ourselves to handle window-closing event
@@ -105,7 +105,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 //Fügt der globalCountryList ein Land hinzu, wenn der Button addCountry gedrückt wird
 	public void addCountry(ActionEvent e) {
 		if (e.getSource() == view.btnAddCountry&&txtNameTest&&populationTest&&txtAreaTest) {
-			country = new Country(countryArea, countryPopulation, government, nameOfCountry);
+			States globalStates = model.getGlobalStates();
+			country = new Country(countryArea, countryPopulation, government, nameOfCountry, globalStates);
 			model.addCountryToGlobalList(country);
 			countries = model.getGlobalCountries();
 			//Testausgabe der Ländernamen aus Array...
