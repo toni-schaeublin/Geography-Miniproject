@@ -49,12 +49,19 @@ public class App_Model extends Model {
 	
 	public void addStateToGlobalList(State state) {
 		globalStateList.addState(state);
+		
 	}
 
 	public void initializeGlobalLists() {
 		State state = new State(0, 0, Government.none, "", "");
 		globalStateList = new States();
 		globalStateList.addState(state);
+		State state1 = new State(1,1,Government.Anarchy, "aaa", "aaa");
+		State state2 = new State(1,1,Government.Anarchy, "bbb", "aaa");
+		State state3 = new State(1,1,Government.Anarchy, "ccc", "aaa");
+		globalStateList.addState(state1);
+		globalStateList.addState(state2);
+		globalStateList.addState(state3);
 		Country country = new Country(0, 0, Government.none, "",globalStateList);
 		globalCountryList = new Countries();
 		globalCountryList.addCountry(country);

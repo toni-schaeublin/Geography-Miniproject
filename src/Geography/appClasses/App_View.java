@@ -46,7 +46,7 @@ public class App_View extends View<App_Model> {
 	TextField txtArea;
 	TextField txtPopulation;
 	ComboBox<Government> cmbGovernment;
-	ComboBox<States> cmbStates;
+	ComboBox<String> cmbStates;
 	// Buttons für countryControlPane
 	GridPane countryControlBtnPane;
 	public Button btnAddCountry;

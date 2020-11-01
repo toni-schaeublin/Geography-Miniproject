@@ -7,6 +7,7 @@ import Geography.abstractClasses.Controller;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.ComboBox;
 import javafx.stage.WindowEvent;
 
 /**
@@ -29,9 +30,9 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	private Government government;
 	private String txtGovernment;
 	private Country country;
-	private States statesArray = new States();
-	private Countries countries;
-
+	States statesOfCountry;
+	private ArrayList<String> statesBelongsToCountry = new ArrayList<>();
+	
 	public App_Controller(App_Model model, App_View view) {
 		super(model, view);
 
@@ -39,19 +40,33 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			if (newValue != "" & newValue.length() > 2) {
 				txtNameTest = true;
 				nameOfCountry = newValue;
+				States globalStates = model.getGlobalStates();
+				statesOfCountry = new States();
+				int sizeOfStates=globalStates.getSize();
+				view.cmbStates.getItems().clear();
+				for (int x=0;x<sizeOfStates;x++) {
+					if(globalStates.getState(x).getCountry().equalsIgnoreCase(nameOfCountry)) {
+						statesOfCountry.addState(globalStates.getState(x));
+						statesBelongsToCountry.add(globalStates.getState(x).getNameOfState());
+						view.cmbStates.getItems().add(statesBelongsToCountry.get(x));
+						
+					}
+				}
+				
+				
 			} else {
 				txtNameTest = false;
 			}
 		});
 
 		view.txtArea.textProperty().addListener((observable, oldValue, newValue) -> {
-			if (isNumeric(newValue)&&newValue!="") {
+			if (isNumeric(newValue) && newValue != "") {
 				txtAreaTest = true;
 				countryArea = Integer.parseInt(newValue);
 				view.status.setText("");
 			} else {
 				txtAreaTest = false;
-				//muss noch mehrsprachig gemacht werden!
+				// muss noch mehrsprachig gemacht werden!
 				view.status.setText("Bitte eine gültige Zahl eingeben");
 			}
 		});
@@ -63,7 +78,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				view.status.setText("");
 			} else {
 				populationTest = false;
-				//muss noch mehrsprachig gemacht werden!
+				// muss noch mehrsprachig gemacht werden!
 				view.status.setText("Bitte eine gültige Zahl eingeben");
 			}
 		});
@@ -80,7 +95,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				Platform.exit();
 			}
 		});
-		// Button soll in Action
+		
 		view.btnAddCountry.setOnAction(this::addCountry);
 
 		serviceLocator = ServiceLocator.getServiceLocator();
@@ -104,21 +119,25 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 //Fügt der globalCountryList ein Land hinzu, wenn der Button addCountry gedrückt wird
 	public void addCountry(ActionEvent e) {
-		if (e.getSource() == view.btnAddCountry&&txtNameTest&&populationTest&&txtAreaTest) {
-			States globalStates = model.getGlobalStates();
-			country = new Country(countryArea, countryPopulation, government, nameOfCountry, globalStates);
-			model.addCountryToGlobalList(country);
-			countries = model.getGlobalCountries();
-			//Testausgabe der Ländernamen aus Array...
-			int size = countries.getSize();
-			for (int i = 0; i < size; i++) {
-				System.out.println(countries.getCountry(i).getNameOfCountry());
+		if (e.getSource() == view.btnAddCountry) {
+			if (txtNameTest && populationTest && txtAreaTest) {
+				Countries globalCountries = model.getGlobalCountries();
+				int size = globalCountries.getSize();
+				for (int i = 0; i < size; i++) {
+					if (nameOfCountry.equalsIgnoreCase(globalCountries.getCountry(i).getNameOfCountry())) {
+						view.status.setText("Dieses Land existiert bereits!");
+					} else {
+						country = new Country(countryArea, countryPopulation, government, nameOfCountry, statesOfCountry);
+						model.addCountryToGlobalList(country);
+						view.status.setText("Land hinzugefügt");
+					}
 
+				}
+
+			} else {
+				view.status.setText("Bitte alle Felder korrekt ausfüllen");
 			}
-
-		}else
-			view.status.setText("Bitte alle Felder korrekt ausfüllen");
-
+		}
 	}
 
 }
