@@ -13,7 +13,7 @@ public class State extends GovernedRegion {
 	}
 
 	public String getCountry() {
-		return country;
+		return this.country;
 	}
 
 	public void setCountry(String country) {
@@ -21,7 +21,7 @@ public class State extends GovernedRegion {
 	}
 
 	public String getNameOfState() {
-		return nameOfState;
+		return this.nameOfState;
 	}
 
 	public void setNameOfState(String nameOfState) {

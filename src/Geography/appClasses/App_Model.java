@@ -1,5 +1,7 @@
 package Geography.appClasses;
 
+import java.util.ArrayList;
+
 import Geography.ServiceLocator;
 import Geography.abstractClasses.Model;
 
@@ -13,8 +15,9 @@ import Geography.abstractClasses.Model;
 public class App_Model extends Model {
 	ServiceLocator serviceLocator;
 	private int value;
-	private States globalStateList;
-	private Countries globalCountryList;
+	private ArrayList<State> statesArray = new ArrayList<>();
+	private ArrayList<State> statesOfCountryArray = new ArrayList<>();
+	private ArrayList<Country> countryArray = new ArrayList<>();
 
 	public App_Model() {
 		value = 0;
@@ -33,37 +36,69 @@ public class App_Model extends Model {
 		return value;
 	}
 
-	public States getGlobalStates() {
-		return globalStateList;
+	public ArrayList<State> getStates() {
+		return statesArray;
 	}
-	
-	
-	public Countries getGlobalCountries() {
-		return globalCountryList;
+
+	public ArrayList<State> getStatesOfCountry(String country) {
+		for (State s : statesArray) {
+			if (s.getCountry().equalsIgnoreCase(country)) {
+				statesOfCountryArray.add(s);
+			}
+		}
+		return statesOfCountryArray;
 	}
-	
-	public void addCountryToGlobalList(Country country) {
-		globalCountryList.addCountry(country);
+
+	public ArrayList<Country> getCountries() {
+		return countryArray;
 	}
-	
-	
-	public void addStateToGlobalList(State state) {
-		globalStateList.addState(state);
-		
+
+	public void addCountry(int area, int population, Government government, String nameOfCountry) {
+		Country country = new Country(area, population, government, nameOfCountry);
+		for (State s : statesArray) {
+			if (s.getCountry().equalsIgnoreCase(nameOfCountry)) {
+				country.addStateToCountry(s);
+			}
+		}
+		countryArray.add(country);
+	}
+
+	public String addStateToStatesArray(State state) {
+		Boolean stateChecker = false;
+		String notification;
+		for (State s : statesArray) {
+			if (s.getNameOfState().equalsIgnoreCase(state.getNameOfState())) {
+				stateChecker = true;
+			} else {
+				stateChecker = false;
+			}
+		}
+		if (!stateChecker) {
+			statesArray.add(state);
+			for (Country c : countryArray) {
+				if (c.getNameOfCountry().equalsIgnoreCase(state.getCountry())) {
+					c.addStateToCountry(state);
+				}
+			}
+			notification = "Staat hinzugefügt";
+
+		} else {
+			notification = "Staat bereits vorhanden!";
+		}
+		return notification;
+
 	}
 
 	public void initializeGlobalLists() {
 		State state = new State(0, 0, Government.none, "", "");
-		globalStateList = new States();
-		globalStateList.addState(state);
-		State state1 = new State(1,1,Government.Anarchy, "aaa", "aaa");
-		State state2 = new State(1,1,Government.Anarchy, "bbb", "aaa");
-		State state3 = new State(1,1,Government.Anarchy, "ccc", "aaa");
-		globalStateList.addState(state1);
-		globalStateList.addState(state2);
-		globalStateList.addState(state3);
-		Country country = new Country(0, 0, Government.none, "",globalStateList);
-		globalCountryList = new Countries();
-		globalCountryList.addCountry(country);
+		statesArray.add(state);
+		State state1 = new State(1, 1, Government.Anarchy, "aaa", "aaa");
+		State state2 = new State(1, 1, Government.Anarchy, "bbb", "aaa");
+		State state3 = new State(1, 1, Government.Anarchy, "ccc", "aaa");
+		statesArray.add(state1);
+		statesArray.add(state2);
+		statesArray.add(state3);
+		Country country = new Country(0, 0, Government.none, "none");
+		countryArray.add(country);
 	}
 }

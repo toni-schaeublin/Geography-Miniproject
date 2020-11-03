@@ -15,7 +15,7 @@ public abstract class GovernedRegion {
 	}
 
 	public int getArea() {
-		return area;
+		return this.area;
 	}
 
 	public void setArea(int area) {
@@ -23,7 +23,7 @@ public abstract class GovernedRegion {
 	}
 
 	public int getPopulation() {
-		return population;
+		return this.population;
 	}
 
 	public void setPopulation(int population) {
@@ -31,7 +31,7 @@ public abstract class GovernedRegion {
 	}
 
 	public Government getGovernment() {
-		return government;
+		return this.government;
 	}
 
 	public void setGovernment(Government government) {

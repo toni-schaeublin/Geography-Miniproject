@@ -7,7 +7,6 @@ import Geography.abstractClasses.Controller;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.ComboBox;
 import javafx.stage.WindowEvent;
 
 /**
@@ -28,36 +27,32 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	private boolean txtAreaTest = false;
 	private String nameOfCountry;
 	private Government government;
-	private String txtGovernment;
-	private Country country;
-	States statesOfCountry;
-	private ArrayList<String> statesBelongsToCountry = new ArrayList<>();
-	
+	ArrayList<State> statesOfCountry = new ArrayList<>();
+	ArrayList<Country> countries = new ArrayList<>();
 	public App_Controller(App_Model model, App_View view) {
 		super(model, view);
+		
+		
+		
 
 		view.txtName.textProperty().addListener((observable, oldValue, newValue) -> {
+			view.cmbStates.getItems().clear();
 			if (newValue != "" & newValue.length() > 2) {
-				txtNameTest = true;
-				nameOfCountry = newValue;
-				States globalStates = model.getGlobalStates();
-				statesOfCountry = new States();
-				int sizeOfStates=globalStates.getSize();
 				view.cmbStates.getItems().clear();
-				for (int x=0;x<sizeOfStates;x++) {
-					if(globalStates.getState(x).getCountry().equalsIgnoreCase(nameOfCountry)) {
-						statesOfCountry.addState(globalStates.getState(x));
-						statesBelongsToCountry.add(globalStates.getState(x).getNameOfState());
-						view.cmbStates.getItems().add(statesBelongsToCountry.get(x));
-						
-					}
+				txtNameTest = true;
+				statesOfCountry = model.getStatesOfCountry(newValue);
+				for (State s : statesOfCountry) {
+					view.cmbStates.getItems().add(s.getNameOfState());
 				}
-				
-				
+
 			} else {
 				txtNameTest = false;
 			}
 		});
+		
+		
+		
+		
 
 		view.txtArea.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (isNumeric(newValue) && newValue != "") {
@@ -95,7 +90,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				Platform.exit();
 			}
 		});
-		
+
 		view.btnAddCountry.setOnAction(this::addCountry);
 
 		serviceLocator = ServiceLocator.getServiceLocator();
@@ -105,13 +100,9 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	public static boolean isNumeric(String value) {
 
 		try {
-
 			int number = Integer.parseInt(value);
-
 			return true;
-
 		} catch (NumberFormatException e) {
-
 			return false;
 
 		}
@@ -120,24 +111,23 @@ public class App_Controller extends Controller<App_Model, App_View> {
 //Fügt der globalCountryList ein Land hinzu, wenn der Button addCountry gedrückt wird
 	public void addCountry(ActionEvent e) {
 		if (e.getSource() == view.btnAddCountry) {
+			boolean countryChecker = false;
+			countries = model.getCountries();				
 			if (txtNameTest && populationTest && txtAreaTest) {
-				Countries globalCountries = model.getGlobalCountries();
-				int size = globalCountries.getSize();
-				for (int i = 0; i < size; i++) {
-					if (nameOfCountry.equalsIgnoreCase(globalCountries.getCountry(i).getNameOfCountry())) {
-						view.status.setText("Dieses Land existiert bereits!");
-					} else {
-						country = new Country(countryArea, countryPopulation, government, nameOfCountry, statesOfCountry);
-						model.addCountryToGlobalList(country);
-						view.status.setText("Land hinzugefügt");
+				for (Country c : countries) {
+					if (c.getNameOfCountry().equalsIgnoreCase(view.txtName.getText())) {
+						countryChecker = true;
 					}
-
 				}
-
-			} else {
-				view.status.setText("Bitte alle Felder korrekt ausfüllen");
+				if (countryChecker) {
+					view.status.setText("Dieses Land existiert bereits");
+				} else {
+					model.addCountry(countryArea, countryPopulation, government, nameOfCountry);
+					view.status.setText("Land hinzugefügt");
+				}
+			}else {
+				view.status.setText("Bitte alle Felder korrekt ausfüllen!");
 			}
 		}
 	}
-
 }

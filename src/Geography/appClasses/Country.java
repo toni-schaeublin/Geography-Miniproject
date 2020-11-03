@@ -1,32 +1,25 @@
 package Geography.appClasses;
 
+import java.util.ArrayList;
+
 import Geography.abstractClasses.GovernedRegion;
 
 public class Country extends GovernedRegion {
 	private String nameOfCountry;
-	private States states;
+	private ArrayList<State> states;
 	private State state;
 	private States globalStates;
 	private String stateName;
 	private Countries countries;
 
-	public Country(int area, int population, Government government, String nameOfCountry, States globalStates) {
+	public Country(int area, int population, Government government, String nameOfCountry) {
 		super(area, population, government);
-		this.globalStates = globalStates;
 		this.nameOfCountry = nameOfCountry;
-		this.states = new States();
-		int size = this.globalStates.getSize();
-		for (int i = 0; i < size; i++) {
-			State state=this.globalStates.getState(i);
-			if (state.getCountry().equalsIgnoreCase(this.nameOfCountry)) {
-				this.addStateToCountry(globalStates.getState(i));
-			}
-
-		}
+		this.states = new ArrayList<>();
 	}
 
 	public String getNameOfCountry() {
-		return nameOfCountry;
+		return this.nameOfCountry;
 	}
 
 	public void setNameOfCountry(String nameOfCountry) {
@@ -36,15 +29,21 @@ public class Country extends GovernedRegion {
 
 	// Fügt ein Staat-Objekt zur Liste states hinzu
 	public void addStateToCountry(State state) {
-		this.state = state;
-		this.states.addState(state);
+		this.states.add(state);
 	}
 
-//Löscht ein Staat-Objekt aus der Liste states
-	public String deleteStateOfCountry(String stateName) {
-		this.stateName = stateName;
-		String notification = this.states.removeState(stateName);
-		return notification;
+//Löscht ein Staat-Objekt aus dem statesArray des Country
+	public Boolean deleteStateOfCountry(String stateName) {
+		int i = 0;
+		Boolean stateDeleted = false;
+		for(State s : this.states) {
+			i++;
+			if (s.getNameOfState().equalsIgnoreCase(stateName)){
+				states.remove(i);
+				stateDeleted = true;
+			}
+		}
+		return stateDeleted;
 	}
 
 }
