@@ -16,7 +16,7 @@ public class App_Model extends Model {
 	ServiceLocator serviceLocator;
 	private int value;
 	private ArrayList<State> statesArray = new ArrayList<>();
-	private ArrayList<State> statesOfCountryArray = new ArrayList<>();
+	ArrayList<State> statesOfCountryArray = new ArrayList<>();
 	private ArrayList<Country> countryArray = new ArrayList<>();
 
 	public App_Model() {

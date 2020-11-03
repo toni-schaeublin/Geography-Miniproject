@@ -94,7 +94,15 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		});
 		// Buttonclicks mit Methodenreferenzen
 		view.btnAddCountry.setOnAction(this::addCountry);
-
+		view.btnDeleteCountry.setOnAction(this::deleteCountry);
+		view.btnClearCountry.setOnAction(this::clearAllFields);
+		view.btnUpdateCountry.setOnAction(this::refreshCountry);
+		view.btnAddState.setOnAction(this::addState);
+		view.btnDeleteState.setOnAction(this::deleteState);
+		view.btnUpdateState.setOnAction(this::refreshState);
+		view.btnClearState.setOnAction(this::clearAllFields);
+		
+		
 		serviceLocator = ServiceLocator.getServiceLocator();
 		serviceLocator.getLogger().info("Application controller initialized");
 	}
@@ -113,26 +121,40 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	}
 
 	// Methode löscht ein Land aus der Liste
-	public void deleteCountry(String countryName) {
+	public void deleteCountry(ActionEvent countryName) {
+		//model.statesOfCountryArray.clear();
+		//updateView(model.getStatesOfCountry(nameOfCountry));
+	}
+
+	//private void updateView(ArrayList<State> statesOfCountry2) {
+		// TODO Auto-generated method stub
+		
+	//}
+
+	// Methode löscht einen Staat aus der Liste
+	public void deleteState(ActionEvent stateName) {
+		if (stateName.getSource() == view.btnDeleteState) {
+			
+		}
+		
+	}
+	
+	//Method fügt einen Staat in die Liste hinzu
+	public void addState(ActionEvent stateName) {
 		
 	}
 
-	// Methode löscht einen Staat aus der Liste
-	public void deleteState(String stateName) {
-
-	}
-
 	// Methode fügt einem bestehenden Land neue Attribute hinzu...
-	public void refreshCountry(String countryName) {
+	public void refreshCountry(ActionEvent countryName) {
 
 	}
 
 	// Methode fügt einem bestehenden Staat neue Attribute hinzu...
-	public void refreshState(String stateName) {
+	public void refreshState(ActionEvent stateName) {
 	}
 
 	// Methode löscht alle Eingabefelder
-	public void clearAllFields() {
+	public void clearAllFields(ActionEvent clear) {
 
 	}
 
