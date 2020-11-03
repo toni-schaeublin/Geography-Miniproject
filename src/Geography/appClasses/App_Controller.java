@@ -27,13 +27,12 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	private boolean txtAreaTest = false;
 	private String nameOfCountry;
 	private Government government;
+	private Boolean governmentTest = false;
 	ArrayList<State> statesOfCountry = new ArrayList<>();
 	ArrayList<Country> countries = new ArrayList<>();
+
 	public App_Controller(App_Model model, App_View view) {
 		super(model, view);
-		
-		
-		
 
 		view.txtName.textProperty().addListener((observable, oldValue, newValue) -> {
 			view.cmbStates.getItems().clear();
@@ -49,10 +48,6 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				txtNameTest = false;
 			}
 		});
-		
-		
-		
-		
 
 		view.txtArea.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (isNumeric(newValue) && newValue != "") {
@@ -81,6 +76,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		view.cmbGovernment.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
 			government = newValue;
 			view.updateTexts();
+			governmentTest = true;
 		});
 
 		// register ourselves to handle window-closing event
@@ -112,8 +108,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	public void addCountry(ActionEvent e) {
 		if (e.getSource() == view.btnAddCountry) {
 			boolean countryChecker = false;
-			countries = model.getCountries();				
-			if (txtNameTest && populationTest && txtAreaTest) {
+			countries = model.getCountries();
+			if (txtNameTest && populationTest && txtAreaTest && governmentTest) {
 				for (Country c : countries) {
 					if (c.getNameOfCountry().equalsIgnoreCase(view.txtName.getText())) {
 						countryChecker = true;
@@ -125,7 +121,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 					model.addCountry(countryArea, countryPopulation, government, nameOfCountry);
 					view.status.setText("Land hinzugefügt");
 				}
-			}else {
+			} else {
 				view.status.setText("Bitte alle Felder korrekt ausfüllen!");
 			}
 		}
