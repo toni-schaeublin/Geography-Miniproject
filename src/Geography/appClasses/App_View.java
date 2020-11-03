@@ -5,8 +5,6 @@ import java.util.logging.Logger;
 import Geography.ServiceLocator;
 import Geography.abstractClasses.View;
 import Geography.commonClasses.Translator;
-import javafx.event.ActionEvent;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -64,7 +62,7 @@ public class App_View extends View<App_Model> {
 	TextField txtStateArea;
 	TextField txtStatePopulation;
 	ComboBox<Government> cmbStatesGovernment;
-	ComboBox<Countries> cmbCountries;
+	ComboBox<String> cmbCountries;
 	// Buttons für stateControl
 	GridPane stateControlBtnPane;
 	Button btnAddState;

@@ -36,11 +36,14 @@ public class App_Model extends Model {
 		return value;
 	}
 
+	// Methode gibt eine ArrayList mit allen Staaten zurück
 	public ArrayList<State> getStates() {
 		return statesArray;
 	}
 
+	/*Methode gibt eine ArrayList mit allen Staaten die zu einem bestimmten Land gehören zurück*/
 	public ArrayList<State> getStatesOfCountry(String country) {
+		statesOfCountryArray.clear();
 		for (State s : statesArray) {
 			if (s.getCountry().equalsIgnoreCase(country)) {
 				statesOfCountryArray.add(s);
@@ -49,11 +52,22 @@ public class App_Model extends Model {
 		return statesOfCountryArray;
 	}
 
+	// Methode weist der ArrayList statesArray eine ArrayList mit Staaten zu
+	public void setStates(ArrayList<State> states) {
+		this.statesArray = states;
+	}
+
+	// Methode Methode gibt eine ArrayList mit allen Ländern zurück
 	public ArrayList<Country> getCountries() {
 		return countryArray;
 	}
 
-	public void addCountry(int area, int population, Government government, String nameOfCountry) {
+	// Methode weist der ArrayList countryArray eine ArrayList mit Countries zu
+	public void setCountries(ArrayList<Country> countries) {
+		this.countryArray = countries;
+	}
+	/*fügt der globalen Liste ein Land hinzu
+	public void addCountryToList(int area, int population, Government government, String nameOfCountry) {
 		Country country = new Country(area, population, government, nameOfCountry);
 		for (State s : statesArray) {
 			if (s.getCountry().equalsIgnoreCase(nameOfCountry)) {
@@ -61,9 +75,10 @@ public class App_Model extends Model {
 			}
 		}
 		countryArray.add(country);
-	}
+	}*/
 
-	public String addStateToStatesArray(State state) {
+	/*fügt der globalen Liste einen Staat hinzu, sofern dieser noch nicht existiert
+	public String addStateToList(State state) {
 		Boolean stateChecker = false;
 		String notification;
 		for (State s : statesArray) {
@@ -87,7 +102,9 @@ public class App_Model extends Model {
 		}
 		return notification;
 
-	}
+	}*/
+
+	
 
 	public void initializeGlobalLists() {
 		State state = new State(0, 0, Government.none, "", "");

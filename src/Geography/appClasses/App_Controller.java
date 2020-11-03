@@ -28,23 +28,29 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	private String nameOfCountry;
 	private Government government;
 	private Boolean governmentTest = false;
+	private Country country;
+	private State state;
 	ArrayList<State> statesOfCountry = new ArrayList<>();
 	ArrayList<Country> countries = new ArrayList<>();
+	ArrayList<State> states = new ArrayList<>();
 
 	public App_Controller(App_Model model, App_View view) {
 		super(model, view);
 
 		view.txtName.textProperty().addListener((observable, oldValue, newValue) -> {
+			this.nameOfCountry = newValue;
+			statesOfCountry = null;
 			view.cmbStates.getItems().clear();
-			if (newValue != "" & newValue.length() > 2) {
+			if (nameOfCountry != "" & nameOfCountry.length() > 2) {
 				view.cmbStates.getItems().clear();
 				txtNameTest = true;
-				statesOfCountry = model.getStatesOfCountry(newValue);
+				statesOfCountry = model.getStatesOfCountry(nameOfCountry);
 				for (State s : statesOfCountry) {
 					view.cmbStates.getItems().add(s.getNameOfState());
 				}
 
 			} else {
+				view.cmbStates.getItems().clear();
 				txtNameTest = false;
 			}
 		});
@@ -86,13 +92,15 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				Platform.exit();
 			}
 		});
-
+		// Buttonclicks mit Methodenreferenzen
 		view.btnAddCountry.setOnAction(this::addCountry);
 
 		serviceLocator = ServiceLocator.getServiceLocator();
 		serviceLocator.getLogger().info("Application controller initialized");
 	}
 
+	// Methode überprüft, ob die Eingabe value ein Integer ist und gibt dann true
+	// zurück
 	public static boolean isNumeric(String value) {
 
 		try {
@@ -104,22 +112,60 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		}
 	}
 
-//Fügt der globalCountryList ein Land hinzu, wenn der Button addCountry gedrückt wird
+	// Methode löscht ein Land aus der Liste
+	public void deleteCountry(String countryName) {
+		
+	}
+
+	// Methode löscht einen Staat aus der Liste
+	public void deleteState(String stateName) {
+
+	}
+
+	// Methode fügt einem bestehenden Land neue Attribute hinzu...
+	public void refreshCountry(String countryName) {
+
+	}
+
+	// Methode fügt einem bestehenden Staat neue Attribute hinzu...
+	public void refreshState(String stateName) {
+	}
+
+	// Methode löscht alle Eingabefelder
+	public void clearAllFields() {
+
+	}
+
+	/*
+	 * Fügt der ArrayList countries ein Land hinzu, wenn der Button addCountry
+	 * gedrückt wird. Anschliessend wird die ArrayList countryArray im model
+	 * aktualisiert
+	 */
 	public void addCountry(ActionEvent e) {
 		if (e.getSource() == view.btnAddCountry) {
 			boolean countryChecker = false;
-			countries = model.getCountries();
+			this.countries = model.getCountries();
+			// prüfen ob alle Felder ausgefüllt sind...
 			if (txtNameTest && populationTest && txtAreaTest && governmentTest) {
-				for (Country c : countries) {
+				// prüfen ob das Land bereits existiert..
+				for (Country c : this.countries) {
 					if (c.getNameOfCountry().equalsIgnoreCase(view.txtName.getText())) {
 						countryChecker = true;
 					}
 				}
-				if (countryChecker) {
-					view.status.setText("Dieses Land existiert bereits");
+				if (!countryChecker) {
+					country = new Country(countryArea, countryPopulation, government, nameOfCountry);
+					this.countries.add(country);
+					this.states = model.getStates();
+					for (State s : states) {
+						if (s.getCountry().equalsIgnoreCase(nameOfCountry)) {
+							statesOfCountry.add(s);
+						}
+					}
+					model.setCountries(countries);
+					view.status.setText("Land hinzugefügt!");
 				} else {
-					model.addCountry(countryArea, countryPopulation, government, nameOfCountry);
-					view.status.setText("Land hinzugefügt");
+					view.status.setText("Land bereits vorhanden!");
 				}
 			} else {
 				view.status.setText("Bitte alle Felder korrekt ausfüllen!");

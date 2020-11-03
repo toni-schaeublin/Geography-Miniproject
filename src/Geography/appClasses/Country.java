@@ -7,11 +7,8 @@ import Geography.abstractClasses.GovernedRegion;
 public class Country extends GovernedRegion {
 	private String nameOfCountry;
 	private ArrayList<State> states;
-	private State state;
-	private States globalStates;
-	private String stateName;
-	private Countries countries;
-
+	
+	
 	public Country(int area, int population, Government government, String nameOfCountry) {
 		super(area, population, government);
 		this.nameOfCountry = nameOfCountry;
@@ -24,9 +21,8 @@ public class Country extends GovernedRegion {
 
 	public void setNameOfCountry(String nameOfCountry) {
 		this.nameOfCountry = nameOfCountry;
-
 	}
-
+	
 	// Fügt ein Staat-Objekt zur Liste states hinzu
 	public void addStateToCountry(State state) {
 		this.states.add(state);
