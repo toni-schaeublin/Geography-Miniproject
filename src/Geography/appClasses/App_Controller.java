@@ -101,8 +101,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		view.btnDeleteState.setOnAction(this::deleteState);
 		view.btnUpdateState.setOnAction(this::refreshState);
 		view.btnClearState.setOnAction(this::clearAllFields);
-		
-		
+
 		serviceLocator = ServiceLocator.getServiceLocator();
 		serviceLocator.getLogger().info("Application controller initialized");
 	}
@@ -118,44 +117,6 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			return false;
 
 		}
-	}
-
-	// Methode löscht ein Land aus der Liste
-	public void deleteCountry(ActionEvent countryName) {
-		//model.statesOfCountryArray.clear();
-		//updateView(model.getStatesOfCountry(nameOfCountry));
-	}
-
-	//private void updateView(ArrayList<State> statesOfCountry2) {
-		// TODO Auto-generated method stub
-		
-	//}
-
-	// Methode löscht einen Staat aus der Liste
-	public void deleteState(ActionEvent stateName) {
-		if (stateName.getSource() == view.btnDeleteState) {
-			
-		}
-		
-	}
-	
-	//Method fügt einen Staat in die Liste hinzu
-	public void addState(ActionEvent stateName) {
-		
-	}
-
-	// Methode fügt einem bestehenden Land neue Attribute hinzu...
-	public void refreshCountry(ActionEvent countryName) {
-
-	}
-
-	// Methode fügt einem bestehenden Staat neue Attribute hinzu...
-	public void refreshState(ActionEvent stateName) {
-	}
-
-	// Methode löscht alle Eingabefelder
-	public void clearAllFields(ActionEvent clear) {
-
 	}
 
 	/*
@@ -194,4 +155,67 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			}
 		}
 	}
+
+	// Methode löscht ein Land aus der Liste
+	public void deleteCountry(ActionEvent e) {
+		if (e.getSource() == view.btnDeleteCountry) {
+			String name = view.txtName.getText();
+			boolean checker = false;
+			ArrayList<Country> countries = new ArrayList<>();
+			countries = model.getCountries();
+			int count = 0;
+			int result =0;
+			for (Country c : countries) {
+				if (c.getNameOfCountry().equalsIgnoreCase(name)) {
+					checker = true;
+					result=count;
+					count++;
+				}else {
+					count++;
+				}
+			}
+			if (checker) {
+				countries.remove(result);
+				view.status.setText(name + " aus der Liste entfernt!");
+			} else {
+				view.status.setText(name + " nicht in der Liste vorhanden!");
+			}
+			model.setCountries(countries);
+		}
+	}
+
+	
+	
+	
+	
+	
+	// Methode fügt einem bestehenden Land neue Attribute hinzu...
+	public void refreshCountry(ActionEvent e) {
+		if (e.getSource() == view.btnUpdateCountry) {
+
+		}
+	}
+
+	// Method fügt einen Staat in die Liste hinzu
+	public void addState(ActionEvent stateName) {
+
+	}
+
+	// Methode löscht einen Staat aus der Liste
+	public void deleteState(ActionEvent stateName) {
+		if (stateName.getSource() == view.btnDeleteState) {
+
+		}
+
+	}
+
+	// Methode fügt einem bestehenden Staat neue Attribute hinzu...
+	public void refreshState(ActionEvent stateName) {
+	}
+
+	// Methode löscht alle Eingabefelder
+	public void clearAllFields(ActionEvent clear) {
+
+	}
+
 }

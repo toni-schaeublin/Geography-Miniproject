@@ -57,7 +57,7 @@ public class App_Model extends Model {
 		this.statesArray = states;
 	}
 
-	// Methode Methode gibt eine ArrayList mit allen Ländern zurück
+	// Methode gibt eine ArrayList mit allen Ländern zurück
 	public ArrayList<Country> getCountries() {
 		return countryArray;
 	}
@@ -66,43 +66,8 @@ public class App_Model extends Model {
 	public void setCountries(ArrayList<Country> countries) {
 		this.countryArray = countries;
 	}
-	/*fügt der globalen Liste ein Land hinzu
-	public void addCountryToList(int area, int population, Government government, String nameOfCountry) {
-		Country country = new Country(area, population, government, nameOfCountry);
-		for (State s : statesArray) {
-			if (s.getCountry().equalsIgnoreCase(nameOfCountry)) {
-				country.addStateToCountry(s);
-			}
-		}
-		countryArray.add(country);
-	}*/
 
-	/*fügt der globalen Liste einen Staat hinzu, sofern dieser noch nicht existiert
-	public String addStateToList(State state) {
-		Boolean stateChecker = false;
-		String notification;
-		for (State s : statesArray) {
-			if (s.getNameOfState().equalsIgnoreCase(state.getNameOfState())) {
-				stateChecker = true;
-			} else {
-				stateChecker = false;
-			}
-		}
-		if (!stateChecker) {
-			statesArray.add(state);
-			for (Country c : countryArray) {
-				if (c.getNameOfCountry().equalsIgnoreCase(state.getCountry())) {
-					c.addStateToCountry(state);
-				}
-			}
-			notification = "Staat hinzugefügt";
 
-		} else {
-			notification = "Staat bereits vorhanden!";
-		}
-		return notification;
-
-	}*/
 
 	
 
