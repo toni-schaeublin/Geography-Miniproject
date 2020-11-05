@@ -172,6 +172,7 @@ public class App_View extends View<App_Model> {
 		txtPopulation = new TextField();
 		cmbGovernment = new ComboBox<>();
 		cmbGovernment.getItems().addAll(Government.values());
+		cmbGovernment.setValue(Government.none);
 		cmbStates = new ComboBox<>();
 		countryPane.add(countryLblCountry, 0, 0);
 		countryPane.add(txtName, 1, 0);
@@ -214,6 +215,7 @@ public class App_View extends View<App_Model> {
 		txtStatePopulation = new TextField();
 		cmbStatesGovernment = new ComboBox<>();
 		cmbStatesGovernment.getItems().addAll(Government.values());
+		cmbStatesGovernment.setValue(Government.none);
 		cmbCountries = new ComboBox<>();
 		statePane.add(lblStateName, 0, 0);
 		statePane.add(txtStateName, 1, 0);

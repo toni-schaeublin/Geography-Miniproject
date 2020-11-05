@@ -26,10 +26,18 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	private int countryPopulation;
 	private boolean txtAreaTest = false;
 	private String nameOfCountry;
+	private String nameOfState;
+	private int stateArea;
+	private int statePopulation;
+	private boolean stateAreaTest = false;
+	private boolean statePopulationTest = false;
 	private Government government;
-	private Boolean governmentTest = false;
+	private String stateOfCountry;
+	private boolean governmentTest = false;
 	private Country country;
 	private State state;
+	private boolean stateGovernmentTest = false;
+	private boolean stateOfCountrytTest = false;
 	ArrayList<State> statesOfCountry = new ArrayList<>();
 	ArrayList<Country> countries = new ArrayList<>();
 	ArrayList<State> states = new ArrayList<>();
@@ -39,29 +47,29 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 		view.txtName.textProperty().addListener((observable, oldValue, newValue) -> {
 			this.nameOfCountry = newValue;
-			statesOfCountry = null;
+			this.statesOfCountry = null;
 			view.cmbStates.getItems().clear();
-			if (nameOfCountry != "" & nameOfCountry.length() > 2) {
+			if (this.nameOfCountry != "" & this.nameOfCountry.length() > 2) {
 				view.cmbStates.getItems().clear();
-				txtNameTest = true;
-				statesOfCountry = model.getStatesOfCountry(nameOfCountry);
-				for (State s : statesOfCountry) {
+				this.txtNameTest = true;
+				this.statesOfCountry = model.getStatesOfCountry(this.nameOfCountry);
+				for (State s : this.statesOfCountry) {
 					view.cmbStates.getItems().add(s.getNameOfState());
 				}
 
 			} else {
 				view.cmbStates.getItems().clear();
-				txtNameTest = false;
+				this.txtNameTest = false;
 			}
 		});
 
 		view.txtArea.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (isNumeric(newValue) && newValue != "") {
-				txtAreaTest = true;
-				countryArea = Integer.parseInt(newValue);
+				this.txtAreaTest = true;
+				this.countryArea = Integer.parseInt(newValue);
 				view.status.setText("");
 			} else {
-				txtAreaTest = false;
+				this.txtAreaTest = false;
 				// muss noch mehrsprachig gemacht werden!
 				view.status.setText("Bitte eine gültige Zahl eingeben");
 			}
@@ -69,20 +77,66 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 		view.txtPopulation.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (isNumeric(newValue)) {
-				populationTest = true;
-				countryPopulation = Integer.parseInt(newValue);
+				this.populationTest = true;
+				this.countryPopulation = Integer.parseInt(newValue);
 				view.status.setText("");
 			} else {
-				populationTest = false;
+				this.populationTest = false;
 				// muss noch mehrsprachig gemacht werden!
 				view.status.setText("Bitte eine gültige Zahl eingeben");
 			}
 		});
 
 		view.cmbGovernment.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
-			government = newValue;
+			this.government = newValue;
 			view.updateTexts();
-			governmentTest = true;
+			this.governmentTest = true;
+		});
+
+		view.txtStateName.textProperty().addListener((observable, oldValue, newValue) -> {
+			this.nameOfState = newValue;
+			if (this.nameOfState != "" & this.nameOfState.length() > 2) {
+				this.txtNameTest = true;
+			} else {
+				this.txtNameTest = false;
+			}
+		});
+
+		view.txtStateArea.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (isNumeric(newValue) && newValue != "") {
+				this.stateAreaTest = true;
+				this.stateArea = Integer.parseInt(newValue);
+				view.status.setText("");
+			} else {
+				this.stateAreaTest = false;
+				// muss noch mehrsprachig gemacht werden!
+				view.status.setText("Bitte eine gültige Zahl eingeben");
+			}
+		});
+
+		view.txtStatePopulation.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (isNumeric(newValue) && newValue != "") {
+				this.statePopulationTest = true;
+				this.statePopulation = Integer.parseInt(newValue);
+				view.status.setText("");
+			} else {
+				this.statePopulationTest = false;
+				// muss noch mehrsprachig gemacht werden!
+				view.status.setText("Bitte eine gültige Zahl eingeben");
+			}
+		});
+
+		view.cmbStatesGovernment.getSelectionModel().selectedItemProperty()
+				.addListener((options, oldValue, newValue) -> {
+					this.government = newValue;
+					view.updateTexts();
+					this.stateGovernmentTest = true;
+				});
+
+		view.cmbCountries.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+			this.stateOfCountry = newValue;
+			view.updateTexts();
+			this.stateOfCountrytTest = true;
 		});
 
 		// register ourselves to handle window-closing event
@@ -111,7 +165,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	public static boolean isNumeric(String value) {
 
 		try {
-			int number = Integer.parseInt(value);
+			int n = Integer.parseInt(value);
 			return true;
 		} catch (NumberFormatException e) {
 			return false;
@@ -164,13 +218,13 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			ArrayList<Country> countries = new ArrayList<>();
 			countries = model.getCountries();
 			int count = 0;
-			int result =0;
+			int result = 0;
 			for (Country c : countries) {
 				if (c.getNameOfCountry().equalsIgnoreCase(name)) {
 					checker = true;
-					result=count;
+					result = count;
 					count++;
-				}else {
+				} else {
 					count++;
 				}
 			}
@@ -184,11 +238,6 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		}
 	}
 
-	
-	
-	
-	
-	
 	// Methode fügt einem bestehenden Land neue Attribute hinzu...
 	public void refreshCountry(ActionEvent e) {
 		if (e.getSource() == view.btnUpdateCountry) {
@@ -215,7 +264,15 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 	// Methode löscht alle Eingabefelder
 	public void clearAllFields(ActionEvent clear) {
-
+		view.txtName.clear();
+		view.txtArea.clear();
+		view.txtPopulation.clear();
+		view.cmbGovernment.setValue(Government.none);
+		view.txtStateName.clear();
+		view.txtStateArea.clear();
+		view.txtStatePopulation.clear();
+		view.cmbStatesGovernment.setValue(Government.none);
+		view.status.setText("");
 	}
 
 }
