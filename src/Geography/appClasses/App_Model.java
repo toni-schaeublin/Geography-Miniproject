@@ -18,6 +18,7 @@ public class App_Model extends Model {
 	private ArrayList<State> statesArray = new ArrayList<>();
 	ArrayList<State> statesOfCountryArray = new ArrayList<>();
 	private ArrayList<Country> countryArray = new ArrayList<>();
+	private ArrayList<String> countryNames = new ArrayList<>();
 
 	public App_Model() {
 		value = 0;
@@ -65,6 +66,15 @@ public class App_Model extends Model {
 	// Methode weist der ArrayList countryArray eine ArrayList mit Countries zu
 	public void setCountries(ArrayList<Country> countries) {
 		this.countryArray = countries;
+	}
+	
+	public ArrayList<String> getCountryNames(){
+		this.countryNames.clear();
+		//this.countryNames.add("none");
+		for(Country c:countryArray) {
+			this.countryNames.add(c.getNameOfCountry());
+		}
+		return this.countryNames;
 	}
 
 

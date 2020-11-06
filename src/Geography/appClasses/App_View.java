@@ -1,5 +1,6 @@
 package Geography.appClasses;
 
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.logging.Logger;
 import Geography.ServiceLocator;
@@ -217,6 +218,14 @@ public class App_View extends View<App_Model> {
 		cmbStatesGovernment.getItems().addAll(Government.values());
 		cmbStatesGovernment.setValue(Government.none);
 		cmbCountries = new ComboBox<>();
+		ArrayList<String> countryNames = new ArrayList<>();
+		countryNames = model.getCountryNames();
+		cmbCountries.getItems().clear();
+		for (String c : countryNames) {
+			cmbCountries.getItems().add(c);
+		}
+		cmbCountries.setValue("none");
+		//cmbCountries.setEditable(true);
 		statePane.add(lblStateName, 0, 0);
 		statePane.add(txtStateName, 1, 0);
 		statePane.add(lblStateArea, 0, 1);

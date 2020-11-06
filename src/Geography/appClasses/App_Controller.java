@@ -36,11 +36,13 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	private boolean governmentTest = false;
 	private Country country;
 	private State state;
+	private Boolean txtStateNameTest=false;
 	private boolean stateGovernmentTest = false;
 	private boolean stateOfCountrytTest = false;
 	ArrayList<State> statesOfCountry = new ArrayList<>();
 	ArrayList<Country> countries = new ArrayList<>();
 	ArrayList<State> states = new ArrayList<>();
+	ArrayList<String> countryNames = new ArrayList<>();
 
 	public App_Controller(App_Model model, App_View view) {
 		super(model, view);
@@ -93,12 +95,37 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			this.governmentTest = true;
 		});
 
+		/*view.cmbStates.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+			String stateName;
+			stateName = newValue;
+			ArrayList<State> states = new ArrayList<>();
+			int count = 0;
+			int result = 0;
+			states = model.getStates();
+			System.out.println(states.size());
+			for (State s : states) {
+				if (s.getNameOfState().equalsIgnoreCase(stateName)) {
+					result = count;
+					count++;
+				}else {
+					count++;
+				}
+			}
+			view.txtName.setText(states.get(result).getNameOfState());
+			view.txtArea.setText(Integer.toString(states.get(result).getArea()));
+			view.txtPopulation.setText(Integer.toString(states.get(result).getPopulation()));
+			view.cmbGovernment.setValue(states.get(result).getGovernment());
+
+			view.updateTexts();
+			this.stateOfCountrytTest = true;
+		});*/
+
 		view.txtStateName.textProperty().addListener((observable, oldValue, newValue) -> {
 			this.nameOfState = newValue;
 			if (this.nameOfState != "" & this.nameOfState.length() > 2) {
-				this.txtNameTest = true;
+				this.txtStateNameTest = true;
 			} else {
-				this.txtNameTest = false;
+				this.txtStateNameTest = false;
 			}
 		});
 
@@ -200,6 +227,13 @@ public class App_Controller extends Controller<App_Model, App_View> {
 						}
 					}
 					model.setCountries(countries);
+					this.countryNames.clear();
+					this.countryNames = model.getCountryNames();
+					view.cmbCountries.getItems().clear();
+					for (String c : this.countryNames) {
+						view.cmbCountries.getItems().add(c);
+					}
+					view.cmbCountries.setValue("none");
 					view.status.setText("Land hinzugefügt!");
 				} else {
 					view.status.setText("Land bereits vorhanden!");
@@ -230,6 +264,13 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			}
 			if (checker) {
 				countries.remove(result);
+				view.cmbCountries.getItems().clear();
+				this.countryNames.clear();
+				this.countryNames=model.getCountryNames();
+				for (String c : this.countryNames) {
+					view.cmbCountries.getItems().add(c);
+				}
+				view.cmbCountries.setValue("none");
 				view.status.setText(name + " aus der Liste entfernt!");
 			} else {
 				view.status.setText(name + " nicht in der Liste vorhanden!");
@@ -246,7 +287,39 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	}
 
 	// Method fügt einen Staat in die Liste hinzu
-	public void addState(ActionEvent stateName) {
+	public void addState(ActionEvent e) {
+		
+		
+		
+		
+		if (e.getSource() == view.btnAddState) {
+			boolean stateChecker = false;
+			this.states = model.getStates();
+			// prüfen ob alle Felder ausgefüllt sind...
+			if (txtStateNameTest && statePopulationTest && stateAreaTest && stateGovernmentTest) {
+				// prüfen ob der Staat bereits existiert..
+				for (State s : this.states) {
+					if (s.getNameOfState().equalsIgnoreCase(view.txtStateName.getText())) {
+						stateChecker = true;
+					}
+				}
+				if (!stateChecker) {
+					state = new State(stateArea, statePopulation, government, nameOfState, stateOfCountry);
+					this.states.add(state);
+					view.status.setText("Staat hinzugefügt!");
+				} else {
+					view.status.setText("Staat bereits vorhanden!");
+				}
+				model.setStates(states);
+			} else {
+				view.status.setText("Bitte alle Felder korrekt ausfüllen!");
+			}
+		}
+		
+		
+		
+		
+		
 
 	}
 
