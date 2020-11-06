@@ -43,6 +43,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	ArrayList<Country> countries = new ArrayList<>();
 	ArrayList<State> states = new ArrayList<>();
 	ArrayList<String> countryNames = new ArrayList<>();
+	ArrayList<String> stateNames = new ArrayList<>();
 
 	public App_Controller(App_Model model, App_View view) {
 		super(model, view);
@@ -289,9 +290,6 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	// Method fügt einen Staat in die Liste hinzu
 	public void addState(ActionEvent e) {
 		
-		
-		
-		
 		if (e.getSource() == view.btnAddState) {
 			boolean stateChecker = false;
 			this.states = model.getStates();
@@ -326,11 +324,39 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	// Methode löscht einen Staat aus der Liste
 	public void deleteState(ActionEvent stateName) {
 		if (stateName.getSource() == view.btnDeleteState) {
-
+			String name = view.txtName.getText();
+			boolean checker = false;
+			ArrayList<State> states = new ArrayList<>();
+			states = model.getStates();
+			int count = 0;
+			int result = 0;
+			for (State s : states) {
+				if (s.getNameOfState().equalsIgnoreCase(name)) {
+					checker = true;
+					result = count;
+					count++;
+				} else {
+					count++;
+				}
+			}
+			if (checker) {
+				states.remove(result);
+				view.cmbStates.getItems().clear();
+				this.stateNames.clear();
+				this.stateNames = model.getStates();
+				for (String c : this.stateNames) {
+					view.cmbStates.getItems().add(c);
+				}
+				view.cmbStates.setValue("none");
+				view.status.setText(name + " aus der Liste entfernt!");
+			} else {
+				view.status.setText(name + " nicht in der Liste vorhanden!");
+			}
+			model.setStates(states);
 		}
-
 	}
 
+		
 	// Methode fügt einem bestehenden Staat neue Attribute hinzu...
 	public void refreshState(ActionEvent stateName) {
 	}
