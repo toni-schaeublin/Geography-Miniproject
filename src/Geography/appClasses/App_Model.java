@@ -19,6 +19,7 @@ public class App_Model extends Model {
 	ArrayList<State> statesOfCountryArray = new ArrayList<>();
 	private ArrayList<Country> countryArray = new ArrayList<>();
 	private ArrayList<String> countryNames = new ArrayList<>();
+	//private ArrayList<String>stateNames = new ArrayList<>();
 
 	public App_Model() {
 		value = 0;
@@ -57,7 +58,14 @@ public class App_Model extends Model {
 	public void setStates(ArrayList<State> states) {
 		this.statesArray = states;
 	}
-
+	
+	//public ArrayList<String> getStateNames(){
+		//this.stateNames.clear();
+		//for(State s : statesArray) {
+			//this.stateNames.add(s.getNameOfState());
+	//	}
+		//return this.stateNames;
+	//}
 	// Methode gibt eine ArrayList mit allen Ländern zurück
 	public ArrayList<Country> getCountries() {
 		return countryArray;

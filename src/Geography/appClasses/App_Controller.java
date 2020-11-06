@@ -343,7 +343,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				states.remove(result);
 				view.cmbStates.getItems().clear();
 				this.stateNames.clear();
-				this.stateNames = model.getStates();
+				this.stateNames = model.getStateNames();
 				for (String c : this.stateNames) {
 					view.cmbStates.getItems().add(c);
 				}
