@@ -322,9 +322,9 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	}
 
 	// Methode löscht einen Staat aus der Liste
-	public void deleteState(ActionEvent stateName) {
-		if (stateName.getSource() == view.btnDeleteState) {
-			/*String name = view.txtName.getText();
+	public void deleteState(ActionEvent e) {
+		if (e.getSource() == view.btnDeleteState) {
+			String name = view.txtStateName.getText();
 			boolean checker = false;
 			ArrayList<State> states = new ArrayList<>();
 			states = model.getStates();
@@ -341,28 +341,28 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			}
 			if (checker) {
 				states.remove(result);
-				view.cmbStates.getItems().clear();
-				this.stateNames.clear();
-				this.stateNames = model.getStateNames();
-				for (String c : this.stateNames) {
-					view.cmbStates.getItems().add(c);
-				}
-				view.cmbStates.setValue("none");
 				view.status.setText(name + " aus der Liste entfernt!");
 			} else {
 				view.status.setText(name + " nicht in der Liste vorhanden!");
 			}
-			model.setStates(states);*/
+			model.setStates(states);
 		}
 	}
 
 		
 	// Methode fügt einem bestehenden Staat neue Attribute hinzu...
-	public void refreshState(ActionEvent stateName) {
+	public void refreshState(ActionEvent e) {
+		
+		
+		
+		
+		
+		
+		
 	}
 
 	// Methode löscht alle Eingabefelder
-	public void clearAllFields(ActionEvent clear) {
+	public void clearAllFields(ActionEvent e) {
 		view.txtName.clear();
 		view.txtArea.clear();
 		view.txtPopulation.clear();
