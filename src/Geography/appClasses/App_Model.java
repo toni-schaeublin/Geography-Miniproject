@@ -1,5 +1,9 @@
 package Geography.appClasses;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.Reader;
 import java.util.ArrayList;
 
 import Geography.ServiceLocator;
@@ -19,7 +23,11 @@ public class App_Model extends Model {
 	ArrayList<State> statesOfCountryArray = new ArrayList<>();
 	private ArrayList<Country> countryArray = new ArrayList<>();
 	private ArrayList<String> countryNames = new ArrayList<>();
-	//private ArrayList<String>stateNames = new ArrayList<>();
+	private static String STATES_FILE = ("states.txt");
+	private static String COUNTRIES_FILE = ("countries.txt");
+	private static String SEPARATOR = (";");
+
+	// private ArrayList<String>stateNames = new ArrayList<>();
 
 	public App_Model() {
 		value = 0;
@@ -43,7 +51,10 @@ public class App_Model extends Model {
 		return statesArray;
 	}
 
-	/*Methode gibt eine ArrayList mit allen Staaten die zu einem bestimmten Land gehören zurück*/
+	/*
+	 * Methode gibt eine ArrayList mit allen Staaten die zu einem bestimmten Land
+	 * gehören zurück
+	 */
 	public ArrayList<State> getStatesOfCountry(String country) {
 		statesOfCountryArray.clear();
 		for (State s : statesArray) {
@@ -58,14 +69,14 @@ public class App_Model extends Model {
 	public void setStates(ArrayList<State> states) {
 		this.statesArray = states;
 	}
-	
-	//public ArrayList<String> getStateNames(){
-		//this.stateNames.clear();
-		//for(State s : statesArray) {
-			//this.stateNames.add(s.getNameOfState());
-	//	}
-		//return this.stateNames;
-	//}
+
+	// public ArrayList<String> getStateNames(){
+	// this.stateNames.clear();
+	// for(State s : statesArray) {
+	// this.stateNames.add(s.getNameOfState());
+	// }
+	// return this.stateNames;
+	// }
 	// Methode gibt eine ArrayList mit allen Ländern zurück
 	public ArrayList<Country> getCountries() {
 		return countryArray;
@@ -75,29 +86,78 @@ public class App_Model extends Model {
 	public void setCountries(ArrayList<Country> countries) {
 		this.countryArray = countries;
 	}
-	
-	public ArrayList<String> getCountryNames(){
+
+	public ArrayList<String> getCountryNames() {
 		this.countryNames.clear();
-		//this.countryNames.add("none");
-		for(Country c:countryArray) {
+		// this.countryNames.add("none");
+		for (Country c : countryArray) {
 			this.countryNames.add(c.getNameOfCountry());
 		}
 		return this.countryNames;
 	}
 
+	public void saveFile() {
 
+	}
 
-	
+	public void loadDefaultStatesFile() {
+
+		File stateFile = new File(STATES_FILE);
+		try (Reader inReader = new FileReader(stateFile)) {
+			BufferedReader in = new BufferedReader(inReader);
+			statesArray.clear();
+			String line = in.readLine();
+			while (line != null) {
+				String[] attributes = line.split(SEPARATOR);
+				int area = Integer.parseInt(attributes[0]);
+				int population = Integer.parseInt(attributes[1]);
+				String government = attributes[2];
+				String nameOfState = attributes[3];
+				String country = attributes[4];
+				State state = new State(area, population, Government.valueOf(government), nameOfState, country);
+				statesArray.add(state);
+				line = in.readLine();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void loadDefaultCountryFile() {
+		File countryFile = new File(COUNTRIES_FILE);
+		try (Reader inReader = new FileReader(countryFile)) {
+			BufferedReader in = new BufferedReader(inReader);
+			countryArray.clear();
+			String line = in.readLine();
+			while (line != null) {
+				String[] attributes = line.split(SEPARATOR);
+				int area = Integer.parseInt(attributes[0]);
+				int population = Integer.parseInt(attributes[1]);
+				String government = attributes[2];
+				String nameOfCountry = attributes[3];
+				Country country = new Country(area, population, Government.valueOf(government), nameOfCountry);
+				countryArray.add(country);
+				line = in.readLine();
+				for(State s:statesArray) {
+					if (s.getCountry().equalsIgnoreCase(nameOfCountry)){
+						country.addStateToCountry(s);
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void saveFileAs() {
+
+	}
 
 	public void initializeGlobalLists() {
-		State state = new State(0, 0, Government.none, "", "");
-		statesArray.add(state);
-		State state1 = new State(1, 1, Government.Anarchy, "aaa", "aaa");
-		State state2 = new State(1, 1, Government.Anarchy, "bbb", "aaa");
-		State state3 = new State(1, 1, Government.Anarchy, "ccc", "aaa");
-		statesArray.add(state1);
-		statesArray.add(state2);
-		statesArray.add(state3);
+
+		loadDefaultStatesFile();
+		loadDefaultCountryFile();
+
 		Country country = new Country(0, 0, Government.none, "none");
 		countryArray.add(country);
 	}
