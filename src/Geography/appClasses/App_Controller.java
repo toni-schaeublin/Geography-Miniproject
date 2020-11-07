@@ -324,7 +324,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	// Methode löscht einen Staat aus der Liste
 	public void deleteState(ActionEvent stateName) {
 		if (stateName.getSource() == view.btnDeleteState) {
-			String name = view.txtName.getText();
+			/*String name = view.txtName.getText();
 			boolean checker = false;
 			ArrayList<State> states = new ArrayList<>();
 			states = model.getStates();
@@ -352,7 +352,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			} else {
 				view.status.setText(name + " nicht in der Liste vorhanden!");
 			}
-			model.setStates(states);
+			model.setStates(states);*/
 		}
 	}
 
