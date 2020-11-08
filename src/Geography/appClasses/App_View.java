@@ -13,6 +13,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -97,17 +99,26 @@ public class App_View extends View<App_Model> {
 				updateTexts();
 			});
 		}
+
 		// Wurzel ist eine VBox. In dieser wird ein Menubar, GridPanes für Country und
 		// State sowie eine Statusleiste abgelegt.
 		VBox root = new VBox();
+		HBox country = new HBox();
+		HBox state = new HBox();
 
 		menuHelp = new Menu();
 		menuBar.getMenus().addAll(menuFile, menuHelp);
 		root.getChildren().add(menuBar);
-		root.getChildren().add(getCountryPane());
+
+		root.getChildren().add(country);
+		country.getChildren().add(getCountryPane());
+		country.getChildren().add(getCountryTable());
 		root.getChildren().add(getCountryControlBtnPane());
-		root.getChildren().add(getStatePane());
+		state.getChildren().add(getStatePane());
+		state.getChildren().add(getStateTable());
+		root.getChildren().add(state);
 		root.getChildren().add(getStateControlBtnPane());
+
 		// Create HBox for Status
 		HBox statusBox = new HBox();
 		status = new Label();
@@ -115,7 +126,6 @@ public class App_View extends View<App_Model> {
 		root.getChildren().add(statusBox);
 		status.setId("statusLbl");
 		status.setText("Status");
-
 		updateTexts();
 
 		Scene scene = new Scene(root);
@@ -218,14 +228,6 @@ public class App_View extends View<App_Model> {
 		cmbStatesGovernment.getItems().addAll(Government.values());
 		cmbStatesGovernment.setValue(Government.none);
 		cmbCountries = new ComboBox<>();
-		ArrayList<String> countryNames = new ArrayList<>();
-		countryNames = model.getCountryNames();
-		cmbCountries.getItems().clear();
-		for (String c : countryNames) {
-			cmbCountries.getItems().add(c);
-		}
-		cmbCountries.setValue("none");
-		//cmbCountries.setEditable(true);
 		statePane.add(lblStateName, 0, 0);
 		statePane.add(txtStateName, 1, 0);
 		statePane.add(lblStateArea, 0, 1);
@@ -251,6 +253,45 @@ public class App_View extends View<App_Model> {
 		stateControlBtnPane.add(btnUpdateState, 2, 0);
 		stateControlBtnPane.add(btnClearState, 3, 0);
 		return stateControlBtnPane;
+	}
+
+	private TableView<Country> getCountryTable() {
+		TableView<Country> countryTable = new TableView<Country>();
+		countryTable.setId("table");
+		TableColumn<Country, String> nameCol
+				= new TableColumn<Country, String>("Name of Country");
+		TableColumn<Country, String> areaCol//
+				= new TableColumn<Country, String>("Area");
+		TableColumn<Country, String> population//
+				= new TableColumn<Country, String>("Population");
+		TableColumn<Country, Government> governmentCol//
+				= new TableColumn<Country, Government>("Government");
+		countryTable.getColumns().addAll(nameCol, areaCol, population, governmentCol);
+		return countryTable;
+	}
+	
+	private TableView<State> getStateTable() {
+		TableView<State> stateTable = new TableView<State>();
+		stateTable.setId("table");
+		TableColumn<State, String> nameCol
+				= new TableColumn<State, String>("Name of State");
+		TableColumn<State, String> areaCol//
+				= new TableColumn<State, String>("Area");
+		TableColumn<State, String> population//
+				= new TableColumn<State, String>("Population");
+		TableColumn<State, Government> governmentCol//
+				= new TableColumn<State, Government>("Government");
+		TableColumn<State, String> ofCountryCol//
+		= new TableColumn<State, String>("Belongs to Country");
+		stateTable.getColumns().addAll(nameCol, areaCol, population, governmentCol, ofCountryCol);
+		return stateTable;
+	}
+
+	public void initializeComboBoxes() {
+		ArrayList<String> countryNames = new ArrayList<>();
+		countryNames = model.getCountryNames();
+		cmbCountries.getItems().addAll(countryNames);
+	
 	}
 
 }

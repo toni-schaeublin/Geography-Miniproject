@@ -106,12 +106,7 @@ public class JavaFX_App_Template extends Application {
         splashView = null;
         //Globale Listen zum Speichern von States und Countries initialisieren
         model.initializeGlobalLists();
-
-           
-        
-        
-        
-
+        view.initializeComboBoxes();
         view.start();
     }
 

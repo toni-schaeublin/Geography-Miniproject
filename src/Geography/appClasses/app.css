@@ -107,3 +107,28 @@
 	-fx-border-width: 2px;
 	-fx-background-color: #800080;
 }
+#table{
+	-fx-min-width: 985px;
+    -fx-border-width: 0 0 1 0;
+    -fx-background-color: transparent;
+    -fx-border-color: 
+        transparent
+        transparent
+        derive(-fx-base, 80%) 
+        transparent;
+    -fx-border-insets: 0 10 1 0;
+}
+
+#table .column-header .label {
+    -fx-font-size: 13pt;
+    -fx-font-style: italic;
+    -fx-text-fill: black;
+    -fx-alignment: center-left;
+    -fx-opacity: 1;
+}
+#table .table-column{ 	
+	-fx-pref-width: 15em; 
+	
+	
+	
+}

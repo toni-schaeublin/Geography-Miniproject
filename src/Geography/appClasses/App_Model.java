@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import Geography.ServiceLocator;
 import Geography.abstractClasses.Model;
+import javafx.collections.ObservableList;
 
 /**
  * Copyright 2015, FHNW, Prof. Dr. Brad Richards. All rights reserved. This code
@@ -26,6 +27,8 @@ public class App_Model extends Model {
 	private static String STATES_FILE = ("states.txt");
 	private static String COUNTRIES_FILE = ("countries.txt");
 	private static String SEPARATOR = (";");
+	private ObservableList<State> states;
+	private ObservableList<Country> countries;
 
 	// private ArrayList<String>stateNames = new ArrayList<>();
 
@@ -89,7 +92,7 @@ public class App_Model extends Model {
 
 	public ArrayList<String> getCountryNames() {
 		this.countryNames.clear();
-		// this.countryNames.add("none");
+		this.countryNames.add("none");
 		for (Country c : countryArray) {
 			this.countryNames.add(c.getNameOfCountry());
 		}
@@ -127,7 +130,7 @@ public class App_Model extends Model {
 		File countryFile = new File(COUNTRIES_FILE);
 		try (Reader inReader = new FileReader(countryFile)) {
 			BufferedReader in = new BufferedReader(inReader);
-			countryArray.clear();
+			this.countryArray.clear();
 			String line = in.readLine();
 			while (line != null) {
 				String[] attributes = line.split(SEPARATOR);
@@ -138,8 +141,8 @@ public class App_Model extends Model {
 				Country country = new Country(area, population, Government.valueOf(government), nameOfCountry);
 				countryArray.add(country);
 				line = in.readLine();
-				for(State s:statesArray) {
-					if (s.getCountry().equalsIgnoreCase(nameOfCountry)){
+				for (State s : this.statesArray) {
+					if (s.getCountry().equalsIgnoreCase(nameOfCountry)) {
 						country.addStateToCountry(s);
 					}
 				}
@@ -157,8 +160,5 @@ public class App_Model extends Model {
 
 		loadDefaultStatesFile();
 		loadDefaultCountryFile();
-
-		Country country = new Country(0, 0, Government.none, "none");
-		countryArray.add(country);
 	}
 }
