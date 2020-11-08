@@ -167,6 +167,10 @@ public class App_View extends View<App_Model> {
 		btnDeleteState.setText(t.getString("state.button.delete"));
 		btnUpdateState.setText(t.getString("state.button.refresh"));
 		btnClearState.setText(t.getString("state.button.clear"));
+		
+		//Labels
+		
+		
 
 	}
 

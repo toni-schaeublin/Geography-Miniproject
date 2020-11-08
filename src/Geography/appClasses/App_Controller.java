@@ -36,7 +36,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	private boolean governmentTest = false;
 	private Country country;
 	private State state;
-	private Boolean txtStateNameTest=false;
+	private Boolean txtStateNameTest = false;
 	private boolean stateGovernmentTest = false;
 	private boolean stateOfCountrytTest = false;
 	ArrayList<State> statesOfCountry = new ArrayList<>();
@@ -44,6 +44,13 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	ArrayList<State> states = new ArrayList<>();
 	ArrayList<String> countryNames = new ArrayList<>();
 	ArrayList<String> stateNames = new ArrayList<>();
+	// Texte für Labels
+	private String lblNotNumeric;
+	private String lblFillAllFields;
+	private String lblAdded;
+	private String lblExistsAllready;
+	private String lblDeleted;
+	private String noElement;
 
 	public App_Controller(App_Model model, App_View view) {
 		super(model, view);
@@ -74,7 +81,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			} else {
 				this.txtAreaTest = false;
 				// muss noch mehrsprachig gemacht werden!
-				view.status.setText("Bitte eine gültige Zahl eingeben");
+				view.status.setText(lblNotNumeric);
 			}
 		});
 
@@ -86,7 +93,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			} else {
 				this.populationTest = false;
 				// muss noch mehrsprachig gemacht werden!
-				view.status.setText("Bitte eine gültige Zahl eingeben");
+				view.status.setText(lblNotNumeric);
 			}
 		});
 
@@ -95,31 +102,6 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			view.updateTexts();
 			this.governmentTest = true;
 		});
-
-		/*view.cmbStates.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
-			String stateName;
-			stateName = newValue;
-			ArrayList<State> states = new ArrayList<>();
-			int count = 0;
-			int result = 0;
-			states = model.getStates();
-			System.out.println(states.size());
-			for (State s : states) {
-				if (s.getNameOfState().equalsIgnoreCase(stateName)) {
-					result = count;
-					count++;
-				}else {
-					count++;
-				}
-			}
-			view.txtName.setText(states.get(result).getNameOfState());
-			view.txtArea.setText(Integer.toString(states.get(result).getArea()));
-			view.txtPopulation.setText(Integer.toString(states.get(result).getPopulation()));
-			view.cmbGovernment.setValue(states.get(result).getGovernment());
-
-			view.updateTexts();
-			this.stateOfCountrytTest = true;
-		});*/
 
 		view.txtStateName.textProperty().addListener((observable, oldValue, newValue) -> {
 			this.nameOfState = newValue;
@@ -138,7 +120,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			} else {
 				this.stateAreaTest = false;
 				// muss noch mehrsprachig gemacht werden!
-				view.status.setText("Bitte eine gültige Zahl eingeben");
+				view.status.setText(lblNotNumeric);
 			}
 		});
 
@@ -150,20 +132,18 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			} else {
 				this.statePopulationTest = false;
 				// muss noch mehrsprachig gemacht werden!
-				view.status.setText("Bitte eine gültige Zahl eingeben");
+				view.status.setText(lblNotNumeric);
 			}
 		});
 
 		view.cmbStatesGovernment.getSelectionModel().selectedItemProperty()
 				.addListener((options, oldValue, newValue) -> {
 					this.government = newValue;
-					view.updateTexts();
 					this.stateGovernmentTest = true;
 				});
 
 		view.cmbCountries.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
 			this.stateOfCountry = newValue;
-			view.updateTexts();
 			this.stateOfCountrytTest = true;
 		});
 
@@ -235,12 +215,12 @@ public class App_Controller extends Controller<App_Model, App_View> {
 						view.cmbCountries.getItems().add(c);
 					}
 					view.cmbCountries.setValue("none");
-					view.status.setText("Land hinzugefügt!");
+					view.status.setText(nameOfCountry + " " + lblAdded);
 				} else {
-					view.status.setText("Land bereits vorhanden!");
+					view.status.setText(nameOfCountry + " " + lblExistsAllready);
 				}
 			} else {
-				view.status.setText("Bitte alle Felder korrekt ausfüllen!");
+				view.status.setText(lblFillAllFields);
 			}
 		}
 	}
@@ -248,14 +228,13 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	// Methode löscht ein Land aus der Liste
 	public void deleteCountry(ActionEvent e) {
 		if (e.getSource() == view.btnDeleteCountry) {
-			String name = view.txtName.getText();
 			boolean checker = false;
 			ArrayList<Country> countries = new ArrayList<>();
 			countries = model.getCountries();
 			int count = 0;
 			int result = 0;
 			for (Country c : countries) {
-				if (c.getNameOfCountry().equalsIgnoreCase(name)) {
+				if (c.getNameOfCountry().equalsIgnoreCase(nameOfCountry)) {
 					checker = true;
 					result = count;
 					count++;
@@ -267,14 +246,14 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				countries.remove(result);
 				view.cmbCountries.getItems().clear();
 				this.countryNames.clear();
-				this.countryNames=model.getCountryNames();
+				this.countryNames = model.getCountryNames();
 				for (String c : this.countryNames) {
 					view.cmbCountries.getItems().add(c);
 				}
 				view.cmbCountries.setValue("none");
-				view.status.setText(name + " aus der Liste entfernt!");
+				view.status.setText(nameOfCountry + " " + lblDeleted);
 			} else {
-				view.status.setText(name + " nicht in der Liste vorhanden!");
+				view.status.setText(nameOfCountry + " " + noElement);
 			}
 			model.setCountries(countries);
 		}
@@ -289,7 +268,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 	// Method fügt einen Staat in die Liste hinzu
 	public void addState(ActionEvent e) {
-		
+
 		if (e.getSource() == view.btnAddState) {
 			boolean stateChecker = false;
 			this.states = model.getStates();
@@ -297,41 +276,35 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			if (txtStateNameTest && statePopulationTest && stateAreaTest && stateGovernmentTest) {
 				// prüfen ob der Staat bereits existiert..
 				for (State s : this.states) {
-					if (s.getNameOfState().equalsIgnoreCase(view.txtStateName.getText())) {
+					if (s.getNameOfState().equalsIgnoreCase(nameOfState)) {
 						stateChecker = true;
 					}
 				}
 				if (!stateChecker) {
 					state = new State(stateArea, statePopulation, government, nameOfState, stateOfCountry);
 					this.states.add(state);
-					view.status.setText("Staat hinzugefügt!");
+					view.status.setText(nameOfState + " " + lblAdded);
 				} else {
-					view.status.setText("Staat bereits vorhanden!");
+					view.status.setText(nameOfState + " " + lblExistsAllready);
 				}
 				model.setStates(states);
 			} else {
-				view.status.setText("Bitte alle Felder korrekt ausfüllen!");
+				view.status.setText(lblFillAllFields);
 			}
 		}
-		
-		
-		
-		
-		
 
 	}
 
 	// Methode löscht einen Staat aus der Liste
 	public void deleteState(ActionEvent e) {
 		if (e.getSource() == view.btnDeleteState) {
-			String name = view.txtStateName.getText();
 			boolean checker = false;
 			ArrayList<State> states = new ArrayList<>();
 			states = model.getStates();
 			int count = 0;
 			int result = 0;
 			for (State s : states) {
-				if (s.getNameOfState().equalsIgnoreCase(name)) {
+				if (s.getNameOfState().equalsIgnoreCase(nameOfState)) {
 					checker = true;
 					result = count;
 					count++;
@@ -341,24 +314,17 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			}
 			if (checker) {
 				states.remove(result);
-				view.status.setText(name + " aus der Liste entfernt!");
+				view.status.setText(nameOfState + " " + lblDeleted);
 			} else {
-				view.status.setText(name + " nicht in der Liste vorhanden!");
+				view.status.setText(nameOfState + " " + noElement);
 			}
 			model.setStates(states);
 		}
 	}
 
-		
 	// Methode fügt einem bestehenden Staat neue Attribute hinzu...
 	public void refreshState(ActionEvent e) {
-		
-		
-		
-		
-		
-		
-		
+
 	}
 
 	// Methode löscht alle Eingabefelder
@@ -372,6 +338,31 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		view.txtStatePopulation.clear();
 		view.cmbStatesGovernment.setValue(Government.none);
 		view.status.setText("");
+	}
+
+	// Hilfsmethoden um die Statuslbls mehrsprachig zu machen
+	public void setLblNotNumeric(String text) {
+		this.lblNotNumeric = text;
+	}
+
+	public void setLblFillAllFields(String text) {
+		this.lblFillAllFields = text;
+	}
+
+	public void setLblAdded(String text) {
+		this.lblAdded = text;
+	}
+
+	public void setLblExistsAllready(String text) {
+		this.lblExistsAllready = text;
+	}
+
+	public void setLblDeleted(String text) {
+		this.lblDeleted = text;
+	}
+
+	public void setNoElement(String text) {
+		this.noElement = text;
 	}
 
 }

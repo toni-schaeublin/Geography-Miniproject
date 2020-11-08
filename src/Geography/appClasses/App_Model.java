@@ -30,14 +30,16 @@ public class App_Model extends Model {
 	private ObservableList<State> states;
 	private ObservableList<Country> countries;
 
-	// private ArrayList<String>stateNames = new ArrayList<>();
-
 	public App_Model() {
 		value = 0;
-
 		serviceLocator = ServiceLocator.getServiceLocator();
 		serviceLocator.getLogger().info("Application model initialized");
 	}
+	
+	
+	
+	
+	
 
 	public int getValue() {
 		return value;
@@ -73,13 +75,6 @@ public class App_Model extends Model {
 		this.statesArray = states;
 	}
 
-	// public ArrayList<String> getStateNames(){
-	// this.stateNames.clear();
-	// for(State s : statesArray) {
-	// this.stateNames.add(s.getNameOfState());
-	// }
-	// return this.stateNames;
-	// }
 	// Methode gibt eine ArrayList mit allen Ländern zurück
 	public ArrayList<Country> getCountries() {
 		return countryArray;
