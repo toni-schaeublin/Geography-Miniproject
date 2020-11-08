@@ -74,6 +74,13 @@ public class App_View extends View<App_Model> {
 	Button btnUpdateState;
 	// Label für Status
 	Label status;
+	// Strings für Lbl status
+	private String lblNotNumeric;
+	private String lblFillAllFields;
+	private String lblAdded;
+	private String lblExistsAllready;
+	private String lblDeleted;
+	private String noElement;
 
 	public App_View(Stage stage, App_Model model) {
 		super(stage, model);
@@ -167,10 +174,14 @@ public class App_View extends View<App_Model> {
 		btnDeleteState.setText(t.getString("state.button.delete"));
 		btnUpdateState.setText(t.getString("state.button.refresh"));
 		btnClearState.setText(t.getString("state.button.clear"));
-		
-		//Labels
-		
-		
+
+		// Labels
+		lblNotNumeric = t.getString("status.lbl.notNumeric");
+		lblFillAllFields = t.getString("status.lbl.fillAllFields");
+		lblAdded=t.getString("status.lbl.added");
+		lblExistsAllready = t.getString("status.lbl.existsAllready");
+		lblDeleted = t.getString("status.lbl.deleted");
+		noElement = t.getString("status.lbl.noElement");
 
 	}
 
@@ -262,8 +273,7 @@ public class App_View extends View<App_Model> {
 	private TableView<Country> getCountryTable() {
 		TableView<Country> countryTable = new TableView<Country>();
 		countryTable.setId("table");
-		TableColumn<Country, String> nameCol
-				= new TableColumn<Country, String>("Name of Country");
+		TableColumn<Country, String> nameCol = new TableColumn<Country, String>("Name of Country");
 		TableColumn<Country, String> areaCol//
 				= new TableColumn<Country, String>("Area");
 		TableColumn<Country, String> population//
@@ -273,12 +283,11 @@ public class App_View extends View<App_Model> {
 		countryTable.getColumns().addAll(nameCol, areaCol, population, governmentCol);
 		return countryTable;
 	}
-	
+
 	private TableView<State> getStateTable() {
 		TableView<State> stateTable = new TableView<State>();
 		stateTable.setId("table");
-		TableColumn<State, String> nameCol
-				= new TableColumn<State, String>("Name of State");
+		TableColumn<State, String> nameCol = new TableColumn<State, String>("Name of State");
 		TableColumn<State, String> areaCol//
 				= new TableColumn<State, String>("Area");
 		TableColumn<State, String> population//
@@ -286,7 +295,7 @@ public class App_View extends View<App_Model> {
 		TableColumn<State, Government> governmentCol//
 				= new TableColumn<State, Government>("Government");
 		TableColumn<State, String> ofCountryCol//
-		= new TableColumn<State, String>("Belongs to Country");
+				= new TableColumn<State, String>("Belongs to Country");
 		stateTable.getColumns().addAll(nameCol, areaCol, population, governmentCol, ofCountryCol);
 		return stateTable;
 	}
@@ -295,7 +304,25 @@ public class App_View extends View<App_Model> {
 		ArrayList<String> countryNames = new ArrayList<>();
 		countryNames = model.getCountryNames();
 		cmbCountries.getItems().addAll(countryNames);
-	
 	}
+	public String getlblNotNumeric() {
+		return this.lblNotNumeric;
+	}
+	public String getlblAdded() {
+		return this.lblAdded;
+	}
+	public String getlblFillAllFields() {
+		return this.lblFillAllFields;
+	}
+	public String getlblExistsAllready() {
+		return this.lblExistsAllready;
+	}
+	public String getlblDeleted() {
+		return this.lblDeleted;
+	}
+	public String getlblnoElement() {
+		return this.noElement;
+	}
+	
 
 }

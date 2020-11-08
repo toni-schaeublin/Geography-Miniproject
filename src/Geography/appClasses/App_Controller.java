@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Geography.ServiceLocator;
 import Geography.abstractClasses.Controller;
+import Geography.commonClasses.Translator;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -54,8 +55,22 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 	public App_Controller(App_Model model, App_View view) {
 		super(model, view);
+		lblNotNumeric = view.getlblNotNumeric();
+		lblFillAllFields = view.getlblFillAllFields();
+		lblAdded = view.getlblAdded();
+		lblExistsAllready = view.getlblExistsAllready();
+		lblDeleted = view.getlblDeleted();
+		noElement = view.getlblnoElement();
+
+		lblNotNumeric = view.getlblNotNumeric();
+		lblFillAllFields = view.getlblFillAllFields();
+		lblAdded = view.getlblAdded();
+		lblExistsAllready = view.getlblExistsAllready();
+		lblDeleted = view.getlblDeleted();
+		noElement = view.getlblnoElement();
 
 		view.txtName.textProperty().addListener((observable, oldValue, newValue) -> {
+			this.updateLbls();
 			this.nameOfCountry = newValue;
 			this.statesOfCountry = null;
 			view.cmbStates.getItems().clear();
@@ -74,6 +89,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		});
 
 		view.txtArea.textProperty().addListener((observable, oldValue, newValue) -> {
+			this.updateLbls();
 			if (isNumeric(newValue) && newValue != "") {
 				this.txtAreaTest = true;
 				this.countryArea = Integer.parseInt(newValue);
@@ -86,6 +102,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		});
 
 		view.txtPopulation.textProperty().addListener((observable, oldValue, newValue) -> {
+			this.updateLbls();
 			if (isNumeric(newValue)) {
 				this.populationTest = true;
 				this.countryPopulation = Integer.parseInt(newValue);
@@ -113,6 +130,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		});
 
 		view.txtStateArea.textProperty().addListener((observable, oldValue, newValue) -> {
+			this.updateLbls();
 			if (isNumeric(newValue) && newValue != "") {
 				this.stateAreaTest = true;
 				this.stateArea = Integer.parseInt(newValue);
@@ -125,6 +143,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		});
 
 		view.txtStatePopulation.textProperty().addListener((observable, oldValue, newValue) -> {
+			this.updateLbls();
 			if (isNumeric(newValue) && newValue != "") {
 				this.statePopulationTest = true;
 				this.statePopulation = Integer.parseInt(newValue);
@@ -188,6 +207,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	 */
 	public void addCountry(ActionEvent e) {
 		if (e.getSource() == view.btnAddCountry) {
+			this.updateLbls();
 			boolean countryChecker = false;
 			this.countries = model.getCountries();
 			// prüfen ob alle Felder ausgefüllt sind...
@@ -228,6 +248,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	// Methode löscht ein Land aus der Liste
 	public void deleteCountry(ActionEvent e) {
 		if (e.getSource() == view.btnDeleteCountry) {
+			this.updateLbls();
 			boolean checker = false;
 			ArrayList<Country> countries = new ArrayList<>();
 			countries = model.getCountries();
@@ -261,6 +282,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 	// Methode fügt einem bestehenden Land neue Attribute hinzu...
 	public void refreshCountry(ActionEvent e) {
+		this.updateLbls();
 		if (e.getSource() == view.btnUpdateCountry) {
 
 		}
@@ -268,7 +290,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 	// Method fügt einen Staat in die Liste hinzu
 	public void addState(ActionEvent e) {
-
+		this.updateLbls();
 		if (e.getSource() == view.btnAddState) {
 			boolean stateChecker = false;
 			this.states = model.getStates();
@@ -297,6 +319,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 	// Methode löscht einen Staat aus der Liste
 	public void deleteState(ActionEvent e) {
+		this.updateLbls();
 		if (e.getSource() == view.btnDeleteState) {
 			boolean checker = false;
 			ArrayList<State> states = new ArrayList<>();
@@ -324,6 +347,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 	// Methode fügt einem bestehenden Staat neue Attribute hinzu...
 	public void refreshState(ActionEvent e) {
+		this.updateLbls();
 
 	}
 
@@ -341,28 +365,13 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	}
 
 	// Hilfsmethoden um die Statuslbls mehrsprachig zu machen
-	public void setLblNotNumeric(String text) {
-		this.lblNotNumeric = text;
+	public void updateLbls() {
+		view.updateTexts();
+		lblNotNumeric = view.getlblNotNumeric();
+		lblFillAllFields = view.getlblFillAllFields();
+		lblAdded = view.getlblAdded();
+		lblExistsAllready = view.getlblExistsAllready();
+		lblDeleted = view.getlblDeleted();
+		noElement = view.getlblnoElement();
 	}
-
-	public void setLblFillAllFields(String text) {
-		this.lblFillAllFields = text;
-	}
-
-	public void setLblAdded(String text) {
-		this.lblAdded = text;
-	}
-
-	public void setLblExistsAllready(String text) {
-		this.lblExistsAllready = text;
-	}
-
-	public void setLblDeleted(String text) {
-		this.lblDeleted = text;
-	}
-
-	public void setNoElement(String text) {
-		this.noElement = text;
-	}
-
 }
