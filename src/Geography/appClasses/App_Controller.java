@@ -96,7 +96,6 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				view.status.setText("");
 			} else {
 				this.txtAreaTest = false;
-				// muss noch mehrsprachig gemacht werden!
 				view.status.setText(lblNotNumeric);
 			}
 		});
@@ -109,7 +108,6 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				view.status.setText("");
 			} else {
 				this.populationTest = false;
-				// muss noch mehrsprachig gemacht werden!
 				view.status.setText(lblNotNumeric);
 			}
 		});
@@ -150,7 +148,6 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				view.status.setText("");
 			} else {
 				this.statePopulationTest = false;
-				// muss noch mehrsprachig gemacht werden!
 				view.status.setText(lblNotNumeric);
 			}
 		});

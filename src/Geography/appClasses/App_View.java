@@ -81,6 +81,18 @@ public class App_View extends View<App_Model> {
 	private String lblExistsAllready;
 	private String lblDeleted;
 	private String noElement;
+	// Strings für Tabelle
+	private String cName;
+	private String cArea;
+	private String cPopulation;
+	private String cGovernment;
+	private String sName;
+	private String sArea;
+	private String sPopulation;
+	private String sGovernment;
+	private String sOfCountry;
+	TableView<Country> countryTable;
+	TableView<State> stateTable;
 
 	public App_View(Stage stage, App_Model model) {
 		super(stage, model);
@@ -103,7 +115,7 @@ public class App_View extends View<App_Model> {
 			language.setOnAction(event -> {
 				sl.getConfiguration().setLocalOption("Language", locale.getLanguage());
 				sl.setTranslator(new Translator(locale.getLanguage()));
-				updateTexts();
+				this.updateTexts();
 			});
 		}
 
@@ -133,7 +145,8 @@ public class App_View extends View<App_Model> {
 		root.getChildren().add(statusBox);
 		status.setId("statusLbl");
 		status.setText("Status");
-		updateTexts();
+		this.updateTexts();
+		this.updateTableText();
 
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource("app.css").toExternalForm());
@@ -178,10 +191,26 @@ public class App_View extends View<App_Model> {
 		// Labels
 		lblNotNumeric = t.getString("status.lbl.notNumeric");
 		lblFillAllFields = t.getString("status.lbl.fillAllFields");
-		lblAdded=t.getString("status.lbl.added");
+		lblAdded = t.getString("status.lbl.added");
 		lblExistsAllready = t.getString("status.lbl.existsAllready");
 		lblDeleted = t.getString("status.lbl.deleted");
 		noElement = t.getString("status.lbl.noElement");
+
+	}
+
+	protected void updateTableText() {
+		Translator t = ServiceLocator.getServiceLocator().getTranslator();
+		// Spaltenbeschriftung für Tabelle
+		this.cName = t.getString("program.country.lbl.country");
+		this.cArea = t.getString("program.country.lbl.area");
+		this.cPopulation = t.getString("program.country.lbl.population");
+		this.cGovernment = t.getString("program.country.lbl.government");
+		// Spaltenbeschriftung für Tabelle
+		this.sName = t.getString("program.state.lbl.state");
+		this.sArea = t.getString("program.state.lbl.area");
+		this.sPopulation = t.getString("program.state.lbl.population");
+		this.sGovernment = t.getString("program.state.lbl.government");
+		this.sOfCountry = t.getString("program.state.lbl.country");
 
 	}
 
@@ -271,31 +300,27 @@ public class App_View extends View<App_Model> {
 	}
 
 	private TableView<Country> getCountryTable() {
-		TableView<Country> countryTable = new TableView<Country>();
+		this.updateTableText();
+
+		countryTable = new TableView<Country>();
 		countryTable.setId("table");
-		TableColumn<Country, String> nameCol = new TableColumn<Country, String>("Name of Country");
-		TableColumn<Country, String> areaCol//
-				= new TableColumn<Country, String>("Area");
-		TableColumn<Country, String> population//
-				= new TableColumn<Country, String>("Population");
-		TableColumn<Country, Government> governmentCol//
-				= new TableColumn<Country, Government>("Government");
+		TableColumn<Country, String> nameCol = new TableColumn<Country, String>(this.cName);
+		TableColumn<Country, String> areaCol = new TableColumn<Country, String>(this.sArea);
+		TableColumn<Country, String> population = new TableColumn<Country, String>(this.sPopulation);
+		TableColumn<Country, Government> governmentCol = new TableColumn<Country, Government>(this.sGovernment);
 		countryTable.getColumns().addAll(nameCol, areaCol, population, governmentCol);
 		return countryTable;
 	}
 
 	private TableView<State> getStateTable() {
-		TableView<State> stateTable = new TableView<State>();
+		this.updateTableText();
+		stateTable = new TableView<State>();
 		stateTable.setId("table");
-		TableColumn<State, String> nameCol = new TableColumn<State, String>("Name of State");
-		TableColumn<State, String> areaCol//
-				= new TableColumn<State, String>("Area");
-		TableColumn<State, String> population//
-				= new TableColumn<State, String>("Population");
-		TableColumn<State, Government> governmentCol//
-				= new TableColumn<State, Government>("Government");
-		TableColumn<State, String> ofCountryCol//
-				= new TableColumn<State, String>("Belongs to Country");
+		TableColumn<State, String> nameCol = new TableColumn<State, String>(this.sName);
+		TableColumn<State, String> areaCol = new TableColumn<State, String>(this.sArea);
+		TableColumn<State, String> population = new TableColumn<State, String>(this.sPopulation);
+		TableColumn<State, Government> governmentCol = new TableColumn<State, Government>(this.sGovernment);
+		TableColumn<State, String> ofCountryCol = new TableColumn<State, String>(this.sOfCountry);
 		stateTable.getColumns().addAll(nameCol, areaCol, population, governmentCol, ofCountryCol);
 		return stateTable;
 	}
@@ -305,24 +330,29 @@ public class App_View extends View<App_Model> {
 		countryNames = model.getCountryNames();
 		cmbCountries.getItems().addAll(countryNames);
 	}
+
 	public String getlblNotNumeric() {
 		return this.lblNotNumeric;
 	}
+
 	public String getlblAdded() {
 		return this.lblAdded;
 	}
+
 	public String getlblFillAllFields() {
 		return this.lblFillAllFields;
 	}
+
 	public String getlblExistsAllready() {
 		return this.lblExistsAllready;
 	}
+
 	public String getlblDeleted() {
 		return this.lblDeleted;
 	}
+
 	public String getlblnoElement() {
 		return this.noElement;
 	}
-	
 
 }

@@ -36,11 +36,6 @@ public class App_Model extends Model {
 		serviceLocator.getLogger().info("Application model initialized");
 	}
 	
-	
-	
-	
-	
-
 	public int getValue() {
 		return value;
 	}
