@@ -84,7 +84,7 @@ public class App_Model extends Model {
 		this.countryNames.clear();
 		this.countryNames.add("none");
 		for (Country c : countryArray) {
-			this.countryNames.add(c.getNameOfCountry());
+			this.countryNames.add(c.getName());
 		}
 		return this.countryNames;
 	}
@@ -107,7 +107,7 @@ public class App_Model extends Model {
 				String government = attributes[2];
 				String nameOfState = attributes[3];
 				String country = attributes[4];
-				State state = new State(area, population, Government.valueOf(government), nameOfState, country);
+				State state = new State(nameOfState, area, population, Government.valueOf(government), country);
 				statesArray.add(state);
 				line = in.readLine();
 			}
@@ -128,7 +128,7 @@ public class App_Model extends Model {
 				int population = Integer.parseInt(attributes[1]);
 				String government = attributes[2];
 				String nameOfCountry = attributes[3];
-				Country country = new Country(area, population, Government.valueOf(government), nameOfCountry);
+				Country country = new Country(nameOfCountry, area, population, Government.valueOf(government));
 				countryArray.add(country);
 				line = in.readLine();
 				for (State s : this.statesArray) {

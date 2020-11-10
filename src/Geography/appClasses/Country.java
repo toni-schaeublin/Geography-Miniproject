@@ -5,24 +5,14 @@ import java.util.ArrayList;
 import Geography.abstractClasses.GovernedRegion;
 
 public class Country extends GovernedRegion {
-	private String nameOfCountry;
 	private ArrayList<State> states;
 	
 	
-	public Country(int area, int population, Government government, String nameOfCountry) {
-		super(area, population, government);
-		this.nameOfCountry = nameOfCountry;
+	public Country(String nameOfCountry, int area, int population, Government government) {
+		super(nameOfCountry, area, population, government);
 		this.states = new ArrayList<>();
 	}
 
-	public String getNameOfCountry() {
-		return this.nameOfCountry;
-	}
-
-	public void setNameOfCountry(String nameOfCountry) {
-		this.nameOfCountry = nameOfCountry;
-	}
-	
 	// Fügt ein Staat-Objekt zur Liste states hinzu
 	public void addStateToCountry(State state) {
 		this.states.add(state);
@@ -34,7 +24,7 @@ public class Country extends GovernedRegion {
 		Boolean stateDeleted = false;
 		for(State s : this.states) {
 			i++;
-			if (s.getNameOfState().equalsIgnoreCase(stateName)){
+			if (s.getName().equalsIgnoreCase(stateName)){
 				states.remove(i);
 				stateDeleted = true;
 			}

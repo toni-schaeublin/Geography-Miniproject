@@ -94,7 +94,9 @@ public class JavaFX_App_Template extends Application {
         // can only be initialized now, because they may depend on the
         // resources initialized by the splash screen
         App_Model model = new App_Model();
+        model.initializeGlobalLists();
         view = new App_View(appStage, model);
+        view.initializeComboBoxes();
         new App_Controller(model, view);
 
         // Resources are now initialized
@@ -105,8 +107,7 @@ public class JavaFX_App_Template extends Application {
         splashView.stop();
         splashView = null;
         //Globale Listen zum Speichern von States und Countries initialisieren
-        model.initializeGlobalLists();
-        view.initializeComboBoxes();
+        
         view.start();
     }
 

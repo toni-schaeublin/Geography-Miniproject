@@ -6,6 +6,9 @@ import Geography.ServiceLocator;
 import Geography.abstractClasses.Controller;
 import Geography.commonClasses.Translator;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.WindowEvent;
@@ -40,11 +43,14 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	private Boolean txtStateNameTest = false;
 	private boolean stateGovernmentTest = false;
 	private boolean stateOfCountrytTest = false;
-	ArrayList<State> statesOfCountry = new ArrayList<>();
-	ArrayList<Country> countries = new ArrayList<>();
-	ArrayList<State> states = new ArrayList<>();
-	ArrayList<String> countryNames = new ArrayList<>();
-	ArrayList<String> stateNames = new ArrayList<>();
+	private ArrayList<State> statesOfCountry = new ArrayList<>();
+	private ArrayList<Country> countries = new ArrayList<>();
+	private ArrayList<State> states = new ArrayList<>();
+	private ArrayList<String> countryNames = new ArrayList<>();
+	private ArrayList<String> stateNames = new ArrayList<>();
+	private ObservableList<Country> oCList = FXCollections.observableList(countries);
+	private ObservableList<State> oSList = FXCollections.observableList(states);
+
 	// Texte für Labels
 	private String lblNotNumeric;
 	private String lblFillAllFields;
@@ -69,6 +75,45 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		lblDeleted = view.getlblDeleted();
 		noElement = view.getlblnoElement();
 
+		countries = model.getCountries();
+		for (Country c : countries) {
+			oCList.add(c);
+		}
+		states = model.getStates();
+		for (State s : states) {
+			oSList.add(s);
+		}
+
+		oCList.addListener(new ListChangeListener() {
+
+			public void onChanged(ListChangeListener.Change change) {
+				serviceLocator.getLogger().info("Detected a change in Countries! ");
+				model.setCountries(countries);
+				countryNames.clear();
+				countryNames = model.getCountryNames();
+				view.cmbCountries.getItems().clear();
+				for (String c : countryNames) {
+					view.cmbCountries.getItems().add(c);
+				}
+				view.cmbCountries.setValue("none");
+			}
+		});
+
+		oSList.addListener(new ListChangeListener() {
+
+			public void onChanged(ListChangeListener.Change change) {
+				serviceLocator.getLogger().info("Detected a change in States! ");
+				model.setStates(states);
+				statesOfCountry = null;
+				view.cmbStates.getItems().clear();
+				statesOfCountry = model.getStatesOfCountry(nameOfCountry);
+				for (State s : statesOfCountry) {
+					view.cmbStates.getItems().add(s.getName());
+				}
+
+			}
+		});
+
 		view.txtName.textProperty().addListener((observable, oldValue, newValue) -> {
 			this.updateLbls();
 			this.nameOfCountry = newValue;
@@ -79,7 +124,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				this.txtNameTest = true;
 				this.statesOfCountry = model.getStatesOfCountry(this.nameOfCountry);
 				for (State s : this.statesOfCountry) {
-					view.cmbStates.getItems().add(s.getNameOfState());
+					view.cmbStates.getItems().add(s.getName());
 				}
 
 			} else {
@@ -211,27 +256,21 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			if (txtNameTest && populationTest && txtAreaTest && governmentTest) {
 				// prüfen ob das Land bereits existiert..
 				for (Country c : this.countries) {
-					if (c.getNameOfCountry().equalsIgnoreCase(view.txtName.getText())) {
+					if (c.getName().equalsIgnoreCase(view.txtName.getText())) {
 						countryChecker = true;
 					}
 				}
 				if (!countryChecker) {
-					country = new Country(countryArea, countryPopulation, government, nameOfCountry);
+					country = new Country(nameOfCountry, countryArea, countryPopulation, government);
 					this.countries.add(country);
+					this.oCList.add(country);
 					this.states = model.getStates();
 					for (State s : states) {
 						if (s.getCountry().equalsIgnoreCase(nameOfCountry)) {
 							statesOfCountry.add(s);
 						}
 					}
-					model.setCountries(countries);
-					this.countryNames.clear();
-					this.countryNames = model.getCountryNames();
-					view.cmbCountries.getItems().clear();
-					for (String c : this.countryNames) {
-						view.cmbCountries.getItems().add(c);
-					}
-					view.cmbCountries.setValue("none");
+					// model.setCountries(countries);
 					view.status.setText(nameOfCountry + " " + lblAdded);
 				} else {
 					view.status.setText(nameOfCountry + " " + lblExistsAllready);
@@ -247,12 +286,11 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		if (e.getSource() == view.btnDeleteCountry) {
 			this.updateLbls();
 			boolean checker = false;
-			ArrayList<Country> countries = new ArrayList<>();
-			countries = model.getCountries();
+			this.countries = model.getCountries();
 			int count = 0;
 			int result = 0;
-			for (Country c : countries) {
-				if (c.getNameOfCountry().equalsIgnoreCase(nameOfCountry)) {
+			for (Country c : this.countries) {
+				if (c.getName().equalsIgnoreCase(nameOfCountry)) {
 					checker = true;
 					result = count;
 					count++;
@@ -261,15 +299,11 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				}
 			}
 			if (checker) {
-				countries.remove(result);
-				view.cmbCountries.getItems().clear();
-				this.countryNames.clear();
-				this.countryNames = model.getCountryNames();
-				for (String c : this.countryNames) {
-					view.cmbCountries.getItems().add(c);
-				}
-				view.cmbCountries.setValue("none");
-				view.status.setText(nameOfCountry + " " + lblDeleted);
+				this.countries.remove(result);
+				this.oCList.remove(result);
+				String name = nameOfCountry;
+				this.clearAllFields(e);
+				view.status.setText(name + " " + lblDeleted);
 			} else {
 				view.status.setText(nameOfCountry + " " + noElement);
 			}
@@ -295,18 +329,18 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			if (txtStateNameTest && statePopulationTest && stateAreaTest && stateGovernmentTest) {
 				// prüfen ob der Staat bereits existiert..
 				for (State s : this.states) {
-					if (s.getNameOfState().equalsIgnoreCase(nameOfState)) {
+					if (s.getName().equalsIgnoreCase(nameOfState)) {
 						stateChecker = true;
 					}
 				}
 				if (!stateChecker) {
-					state = new State(stateArea, statePopulation, government, nameOfState, stateOfCountry);
+					state = new State(nameOfState, stateArea, statePopulation, government, stateOfCountry);
 					this.states.add(state);
+					this.oSList.add(state);
 					view.status.setText(nameOfState + " " + lblAdded);
 				} else {
 					view.status.setText(nameOfState + " " + lblExistsAllready);
 				}
-				model.setStates(states);
 			} else {
 				view.status.setText(lblFillAllFields);
 			}
@@ -319,12 +353,11 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		this.updateLbls();
 		if (e.getSource() == view.btnDeleteState) {
 			boolean checker = false;
-			ArrayList<State> states = new ArrayList<>();
-			states = model.getStates();
+			this.states = model.getStates();
 			int count = 0;
 			int result = 0;
-			for (State s : states) {
-				if (s.getNameOfState().equalsIgnoreCase(nameOfState)) {
+			for (State s : this.states) {
+				if (s.getName().equalsIgnoreCase(nameOfState)) {
 					checker = true;
 					result = count;
 					count++;
@@ -333,12 +366,13 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				}
 			}
 			if (checker) {
-				states.remove(result);
-				view.status.setText(nameOfState + " " + lblDeleted);
+				this.states.remove(result);
+				this.oSList.remove(result);
+				String name = nameOfState;
+				view.status.setText(name + " " + lblDeleted);
 			} else {
 				view.status.setText(nameOfState + " " + noElement);
 			}
-			model.setStates(states);
 		}
 	}
 
