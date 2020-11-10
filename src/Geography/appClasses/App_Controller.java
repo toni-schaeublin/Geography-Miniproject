@@ -67,7 +67,6 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		lblExistsAllready = view.getlblExistsAllready();
 		lblDeleted = view.getlblDeleted();
 		noElement = view.getlblnoElement();
-
 		lblNotNumeric = view.getlblNotNumeric();
 		lblFillAllFields = view.getlblFillAllFields();
 		lblAdded = view.getlblAdded();
@@ -83,7 +82,14 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		for (State s : states) {
 			oSList.add(s);
 		}
-
+		view.countryList.getItems().clear();
+		for (Country c : countries) {
+			view.countryList.getItems().add(c);
+		}
+		view.stateList.getItems().clear();
+		for (State s : states) {
+			view.stateList.getItems().add(s);
+		}
 		oCList.addListener(new ListChangeListener() {
 
 			public void onChanged(ListChangeListener.Change change) {
@@ -96,6 +102,9 @@ public class App_Controller extends Controller<App_Model, App_View> {
 					view.cmbCountries.getItems().add(c);
 				}
 				view.cmbCountries.setValue("none");
+				view.countryList.getItems().clear();
+				for (Country c : countries)
+					view.countryList.getItems().add(c);
 			}
 		});
 
@@ -110,6 +119,9 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				for (State s : statesOfCountry) {
 					view.cmbStates.getItems().add(s.getName());
 				}
+				view.stateList.getItems().clear();
+				for (State s : states)
+					view.stateList.getItems().add(s);
 
 			}
 		});

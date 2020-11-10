@@ -20,6 +20,8 @@ import javafx.collections.ObservableList;
 public class App_Model extends Model {
 	ServiceLocator serviceLocator;
 	private int value;
+	private Country country;
+	private State state;
 	private ArrayList<State> statesArray = new ArrayList<>();
 	ArrayList<State> statesOfCountryArray = new ArrayList<>();
 	private ArrayList<Country> countryArray = new ArrayList<>();
@@ -150,5 +152,12 @@ public class App_Model extends Model {
 
 		loadDefaultStatesFile();
 		loadDefaultCountryFile();
+	}
+	public Country getCountry() {
+		return country;
+	}
+	
+	public State getState() {
+		return state;
 	}
 }

@@ -1,51 +1,54 @@
 package Geography.abstractClasses;
 
 import Geography.appClasses.Government;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 public abstract class GovernedRegion {
-	private String name;
-	private int area;
-	private int population;
-	private Government government;
+	private SimpleStringProperty name;
+	private SimpleIntegerProperty area;
+	private SimpleIntegerProperty population;
+	private SimpleStringProperty government;
 
 	public GovernedRegion(String name, int area, int population, Government government) {
-		this.name = name;
-		this.area = area;
-		this.population = population;
-		this.government = government;
+		this.name=new SimpleStringProperty(name);
+		this.area=new SimpleIntegerProperty(area);
+		this.population=new SimpleIntegerProperty(population);
+		this.government=new SimpleStringProperty(government.toString());
+
 
 	}
 	
 	public String getName() {
-		return this.name;
+		return this.name.get();
 	}
 	
 	public void setName(String name) {
-		this.name = name;
+		this.name.set(name);;
 	}
 
 	public int getArea() {
-		return this.area;
+		return this.area.get();
 	}
 
 	public void setArea(int area) {
-		this.area = area;
+		this.area.set(area);;
 	}
 
 	public int getPopulation() {
-		return this.population;
+		return this.population.get();
 	}
 
 	public void setPopulation(int population) {
-		this.population = population;
+		this.population.set(population);
 	}
 
-	public Government getGovernment() {
-		return this.government;
+	public String getGovernment() {
+		return this.government.get();
 	}
 
 	public void setGovernment(Government government) {
-		this.government = government;
+		this.government.set(government.toString());
 	}
 
 }

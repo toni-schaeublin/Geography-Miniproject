@@ -6,16 +6,20 @@ import java.util.logging.Logger;
 import Geography.ServiceLocator;
 import Geography.abstractClasses.View;
 import Geography.commonClasses.Translator;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -81,18 +85,9 @@ public class App_View extends View<App_Model> {
 	private String lblExistsAllready;
 	private String lblDeleted;
 	private String noElement;
-	// Strings für Tabelle
-	private String cName;
-	private String cArea;
-	private String cPopulation;
-	private String cGovernment;
-	private String sName;
-	private String sArea;
-	private String sPopulation;
-	private String sGovernment;
-	private String sOfCountry;
-	TableView<Country> countryTable;
-	TableView<State> stateTable;
+	
+	ListView<Country> countryList;
+	ListView<State> stateList;
 
 	public App_View(Stage stage, App_Model model) {
 		super(stage, model);
@@ -128,13 +123,17 @@ public class App_View extends View<App_Model> {
 		menuHelp = new Menu();
 		menuBar.getMenus().addAll(menuFile, menuHelp);
 		root.getChildren().add(menuBar);
+		countryList= new ListView<Country>();
+		countryList.setPrefWidth(450);
+		stateList=new ListView<State>();
+		stateList.setPrefWidth(450);
 
 		root.getChildren().add(country);
 		country.getChildren().add(getCountryPane());
-		country.getChildren().add(getCountryTable());
+		country.getChildren().add(countryList);
 		root.getChildren().add(getCountryControlBtnPane());
 		state.getChildren().add(getStatePane());
-		state.getChildren().add(getStateTable());
+		state.getChildren().add(stateList);
 		root.getChildren().add(state);
 		root.getChildren().add(getStateControlBtnPane());
 
@@ -146,7 +145,6 @@ public class App_View extends View<App_Model> {
 		status.setId("statusLbl");
 		status.setText("Status");
 		this.updateTexts();
-		this.updateTableText();
 
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource("app.css").toExternalForm());
@@ -195,22 +193,6 @@ public class App_View extends View<App_Model> {
 		lblExistsAllready = t.getString("status.lbl.existsAllready");
 		lblDeleted = t.getString("status.lbl.deleted");
 		noElement = t.getString("status.lbl.noElement");
-
-	}
-
-	protected void updateTableText() {
-		Translator t = ServiceLocator.getServiceLocator().getTranslator();
-		// Spaltenbeschriftung für Tabelle
-		this.cName = t.getString("program.country.lbl.country");
-		this.cArea = t.getString("program.country.lbl.area");
-		this.cPopulation = t.getString("program.country.lbl.population");
-		this.cGovernment = t.getString("program.country.lbl.government");
-		// Spaltenbeschriftung für Tabelle
-		this.sName = t.getString("program.state.lbl.state");
-		this.sArea = t.getString("program.state.lbl.area");
-		this.sPopulation = t.getString("program.state.lbl.population");
-		this.sGovernment = t.getString("program.state.lbl.government");
-		this.sOfCountry = t.getString("program.state.lbl.country");
 
 	}
 
@@ -298,39 +280,13 @@ public class App_View extends View<App_Model> {
 		stateControlBtnPane.add(btnClearState, 3, 0);
 		return stateControlBtnPane;
 	}
-
-	private TableView<Country> getCountryTable() {
-		this.updateTableText();
-
-		countryTable = new TableView<Country>();
-		countryTable.setId("table");
-		TableColumn<Country, String> nameCol = new TableColumn<Country, String>(this.cName);
-		TableColumn<Country, String> areaCol = new TableColumn<Country, String>(this.sArea);
-		TableColumn<Country, String> population = new TableColumn<Country, String>(this.sPopulation);
-		TableColumn<Country, Government> governmentCol = new TableColumn<Country, Government>(this.sGovernment);
-		countryTable.getColumns().addAll(nameCol, areaCol, population, governmentCol);
-		return countryTable;
-	}
-
-	private TableView<State> getStateTable() {
-		this.updateTableText();
-		stateTable = new TableView<State>();
-		stateTable.setId("table");
-		TableColumn<State, String> nameCol = new TableColumn<State, String>(this.sName);
-		TableColumn<State, String> areaCol = new TableColumn<State, String>(this.sArea);
-		TableColumn<State, String> population = new TableColumn<State, String>(this.sPopulation);
-		TableColumn<State, Government> governmentCol = new TableColumn<State, Government>(this.sGovernment);
-		TableColumn<State, String> ofCountryCol = new TableColumn<State, String>(this.sOfCountry);
-		stateTable.getColumns().addAll(nameCol, areaCol, population, governmentCol, ofCountryCol);
-		return stateTable;
-	}
-
+//--------------------------------------Methode zum Füllen der ComboBox cmbCountries----------------------
 	public void initializeComboBoxes() {
 		ArrayList<String> countryNames = new ArrayList<>();
 		countryNames = model.getCountryNames();
 		cmbCountries.getItems().addAll(countryNames);
 	}
-
+//--------------------------------------getter für StatusLbl----------------------------------------------
 	public String getlblNotNumeric() {
 		return this.lblNotNumeric;
 	}
@@ -354,5 +310,6 @@ public class App_View extends View<App_Model> {
 	public String getlblnoElement() {
 		return this.noElement;
 	}
+
 
 }

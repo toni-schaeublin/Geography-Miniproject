@@ -31,5 +31,9 @@ public class Country extends GovernedRegion {
 		}
 		return stateDeleted;
 	}
+	public String toString() {
+		return (super.getName()+",     Area: "+ Integer.toString(super.getArea())+" km^2,"+"     Population: " 
+	+Integer.toString(super.getPopulation())+",     "+super.getGovernment());
+	}
 
 }
