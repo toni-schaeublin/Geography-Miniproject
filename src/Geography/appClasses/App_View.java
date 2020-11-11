@@ -41,7 +41,7 @@ public class App_View extends View<App_Model> {
 	Menu menuFile;
 	Menu menuFileLanguage;
 	MenuItem menuFileSave;
-	MenuItem menuFileSaveAs;
+	MenuItem menuFileRestore;
 	Menu menuHelp;
 	// Variablen für countryPane
 	GridPane countryPane;
@@ -91,6 +91,7 @@ public class App_View extends View<App_Model> {
 	//Strings für Alerts
 	private String alertDelete;
 	private String alertDeleteCanceled;
+	private String alertNotFound;
 	
 	ListView<Country> countryList;
 	ListView<State> stateList;
@@ -105,11 +106,11 @@ public class App_View extends View<App_Model> {
 		ServiceLocator sl = ServiceLocator.getServiceLocator();
 		Logger logger = sl.getLogger();
 		MenuBar menuBar = new MenuBar();
-		menuFile = new Menu();
-		menuFileLanguage = new Menu();
-		menuFileSave = new MenuItem();
-		menuFileSaveAs = new MenuItem();
-		menuFile.getItems().addAll(menuFileLanguage, menuFileSave, menuFileSaveAs);
+		this.menuFile = new Menu();
+		this.menuFileLanguage = new Menu();
+		this.menuFileSave = new MenuItem();
+		this.menuFileRestore = new MenuItem();
+		this.menuFile.getItems().addAll(menuFileLanguage, menuFileSave, menuFileRestore);
 		for (Locale locale : sl.getLocales()) {
 			MenuItem language = new MenuItem(locale.getLanguage());
 			menuFileLanguage.getItems().add(language);
@@ -164,7 +165,7 @@ public class App_View extends View<App_Model> {
 		menuFile.setText(t.getString("program.menu.file"));
 		menuFileLanguage.setText(t.getString("program.menu.file.language"));
 		menuFileSave.setText(t.getString("program.menu.file.save"));
-		menuFileSaveAs.setText(t.getString("program.menu.file.saveAs"));
+		menuFileRestore.setText(t.getString("program.menu.file.restore"));
 		menuHelp.setText(t.getString("program.menu.help"));
 		// Country Labels
 		countryLblCountry.setText(t.getString("program.country.lbl.country"));
@@ -203,7 +204,7 @@ public class App_View extends View<App_Model> {
 		//Alerts
 		alertDelete=t.getString("alertDelete");
 		alertDeleteCanceled=t.getString("alertDeleteCanceled");
-
+		alertNotFound=t.getString("alertNotFound");
 	}
 
 	private Pane getCountryPane() {
@@ -326,7 +327,7 @@ public class App_View extends View<App_Model> {
 		boolean confirmation = false;
 		Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
 		alert.setTitle("");
-		alert.setHeaderText(alertDelete);
+		alert.setHeaderText(this.alertDelete);
 		alert.showAndWait();
 		if (alert.getResult() == ButtonType.YES) {
 			confirmation = true;
@@ -335,7 +336,15 @@ public class App_View extends View<App_Model> {
 
 	}
 	
-	//----------------------------------getter für Alert-Texte
+	public void getNotFoundAlert() {
+		updateTexts();
+		Alert alert = new Alert(AlertType.WARNING);
+		alert.setTitle("");
+		alert.setHeaderText(this.alertNotFound);
+		alert.showAndWait();
+	}
+	
+	//----------------------------------getter für Alert-Texte die im controller benötigt werden
 	public String getAlertDeleteCanceled() {
 		return alertDeleteCanceled;
 	}

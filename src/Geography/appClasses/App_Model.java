@@ -91,10 +91,6 @@ public class App_Model extends Model {
 		return this.countryNames;
 	}
 
-	public void saveFile() {
-
-	}
-
 	public void loadDefaultStatesFile() {
 
 		File stateFile = new File(STATES_FILE);
@@ -144,12 +140,16 @@ public class App_Model extends Model {
 		}
 	}
 
-	public void saveFileAs() {
+	public void saveFiles() {
 
+		
+		System.out.println("Menu save file chosen");
+		
+		
+		
 	}
 
 	public void initializeGlobalLists() {
-
 		loadDefaultStatesFile();
 		loadDefaultCountryFile();
 	}

@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -241,6 +242,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		view.btnDeleteState.setOnAction(this::deleteState);
 		view.btnUpdateState.setOnAction(this::refreshState);
 		view.btnClearState.setOnAction(this::clearAllFields);
+		view.menuFileRestore.setOnAction(this::restoreList);
+		view.menuFileSave.setOnAction(this::saveFile);
 
 		serviceLocator = ServiceLocator.getServiceLocator();
 		serviceLocator.getLogger().info("Application controller initialized");
@@ -327,7 +330,12 @@ public class App_Controller extends Controller<App_Model, App_View> {
 					view.status.setText(view.getAlertDeleteCanceled());
 				}
 			} else {
-				view.status.setText(nameOfCountry + " " + noElement);
+				if (confirmation) {
+					view.getNotFoundAlert();
+					// view.status.setText(nameOfCountry + " " + noElement);
+				} else {
+					view.status.setText(view.getAlertDeleteCanceled());
+				}
 			}
 			model.setCountries(countries);
 		}
@@ -348,7 +356,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			boolean stateChecker = false;
 			this.states = model.getStates();
 			// prüfen ob alle Felder ausgefüllt sind...
-			if (txtStateNameTest && statePopulationTest && stateAreaTest && stateGovernmentTest&&stateOfCountrytTest) {
+			if (txtStateNameTest && statePopulationTest && stateAreaTest && stateGovernmentTest
+					&& stateOfCountrytTest) {
 				// prüfen ob der Staat bereits existiert..
 				for (State s : this.states) {
 					if (s.getName().equalsIgnoreCase(nameOfState)) {
@@ -393,14 +402,20 @@ public class App_Controller extends Controller<App_Model, App_View> {
 					this.states.remove(result);
 					this.oSList.remove(result);
 					String name = nameOfState;
+					this.clearAllFields(e);
 					view.status.setText(name + " " + lblDeleted);
 				} else {
 					view.status.setText(view.getAlertDeleteCanceled());
-
 				}
 			} else {
-				view.status.setText(nameOfState + " " + noElement);
+				if (confirmation) {
+					view.getNotFoundAlert();
+					// view.status.setText(nameOfCountry + " " + noElement);
+				} else {
+					view.status.setText(view.getAlertDeleteCanceled());
+				}
 			}
+			model.setStates(states);
 		}
 	}
 
@@ -408,6 +423,23 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	public void refreshState(ActionEvent e) {
 		this.updateLbls();
 
+	}
+
+	public void restoreList(ActionEvent e) {
+		model.loadDefaultCountryFile();
+		model.loadDefaultStatesFile();
+		countries = model.getCountries();
+		for (Country c : countries) {
+			oCList.add(c);
+		}
+		states = model.getStates();
+		for (State s : states) {
+			oSList.add(s);
+		}
+	}
+	
+	public void saveFile(ActionEvent e) {
+		model.saveFiles();
 	}
 
 	// Methode löscht alle Eingabefelder
