@@ -274,16 +274,57 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				view.status.setText(nameOfCountry + " " + noElement);
 			}
 			model.setCountries(countries);
-		}
+		}deleteView();
 	}
 
 	// Methode fügt einem bestehenden Land neue Attribute hinzu...
 	public void refreshCountry(ActionEvent e) {
 		this.updateLbls();
 		if (e.getSource() == view.btnUpdateCountry) {
+			boolean checkerOfCountry = false;
+			this.countries = model.getCountries();
+			// prüfen ob alle Felder ausgefüllt sind...
+			if (txtNameTest && populationTest && txtAreaTest && governmentTest) {
+				// prüfen ob das Land bereits existiert..
+				for (Country c : this.countries) {
+					if (c.getNameOfCountry().equalsIgnoreCase(view.txtName.getText())) {
+						checkerOfCountry = true;
+					}
+					if (checkerOfCountry) {
+						ArrayList<Country> countries = new ArrayList<>();
+						countries = model.getCountries();
+						int count = 0;
+						int result = 0;
+						for (Country c2 : countries) {
+							if (c2.getNameOfCountry().equalsIgnoreCase(nameOfCountry)) {
+								checkerOfCountry = true;
+								result = count;
+								count++;
+							} else {
+								count++;
+							}
+						}
+						if (checkerOfCountry) {
+							countries.remove(result);
+							view.cmbCountries.getItems().clear();
+							this.countryNames.clear();
+							this.countryNames = model.getCountryNames();
+							for (String c2 : this.countryNames) {
+								view.cmbCountries.getItems().add(c2);
+							}
+							view.cmbCountries.setValue("none");
+							view.status.setText(nameOfCountry + " " + lblDeleted);
+						} else {
+							view.status.setText(nameOfCountry + " " + noElement);
+						}
+						model.setCountries(countries);
+					}
+						updateView();
 
 		}
 	}
+	}
+		}
 
 	// Method fügt einen Staat in die Liste hinzu
 	public void addState(ActionEvent e) {
@@ -339,12 +380,49 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				view.status.setText(nameOfState + " " + noElement);
 			}
 			model.setStates(states);
-		}
+		}deleteView();
 	}
 
 	// Methode fügt einem bestehenden Staat neue Attribute hinzu...
 	public void refreshState(ActionEvent e) {
 		this.updateLbls();
+		if (e.getSource() == view.btnUpdateState) {
+			boolean checkerOfState = false;
+			this.states = model.getStates();
+			// prüfen ob alle Felder ausgefüllt sind...
+			if (txtStateNameTest && statePopulationTest && stateAreaTest && stateGovernmentTest) {
+				// prüfen ob der Staat bereits existiert..
+				for (State s : this.states) {
+					if (s.getNameOfState().equalsIgnoreCase(nameOfState)) {
+						checkerOfState = true;
+					}
+					if (checkerOfState) {
+						ArrayList<State> states = new ArrayList<>();
+						states = model.getStates();
+						int count = 0;
+						int result = 0;
+						for (State s2 : states) {
+							if (s2.getNameOfState().equalsIgnoreCase(nameOfState)) {
+								checkerOfState = true;
+								result = count;
+								count++;
+							} else {
+								count++;
+							}
+						}
+						if (checkerOfState) {
+							states.remove(result);
+							view.status.setText(nameOfState + " " + lblDeleted);
+						} else {
+							view.status.setText(nameOfState + " " + noElement);
+						}
+						model.setStates(states);
+					}updateView();
+						
+					}
+				}
+			
+		}
 
 	}
 
@@ -371,4 +449,26 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		lblDeleted = view.getlblDeleted();
 		noElement = view.getlblnoElement();
 	}
-}
+	// updated Felder View, löscht die Area und Population. 		
+	public void updateView() {
+		view.txtArea.clear();
+		view.txtPopulation.clear();
+		view.cmbGovernment.setValue(Government.none);
+		view.txtStateArea.clear();
+		view.txtStatePopulation.clear();
+		view.cmbStatesGovernment.setValue(Government.none);
+		view.status.setText("");
+	}
+	//löscht alle Felder aus
+	public void deleteView() {
+		view.txtName.clear();
+		view.txtArea.clear();
+		view.txtPopulation.clear();
+		view.cmbGovernment.setValue(Government.none);
+		view.txtStateName.clear();
+		view.txtStateArea.clear();
+		view.txtStatePopulation.clear();
+		view.cmbStatesGovernment.setValue(Government.none);
+		view.status.setText("");
+	}
+	}
