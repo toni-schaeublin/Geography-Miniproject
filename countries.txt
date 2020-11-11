@@ -1,2 +1,2 @@
-41285;8417700;Democracy;Schweiz
-357582;83166711;Democracy;Deutschland
+Schweiz;41285;8417700;Democracy
+Deutschland;357582;83166711;Democracy

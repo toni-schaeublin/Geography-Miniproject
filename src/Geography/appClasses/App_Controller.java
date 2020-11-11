@@ -244,6 +244,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		view.btnClearState.setOnAction(this::clearAllFields);
 		view.menuFileRestore.setOnAction(this::restoreList);
 		view.menuFileSave.setOnAction(this::saveFile);
+		view.menuFileLoadUserList.setOnAction(this::restoreUserList);
 
 		serviceLocator = ServiceLocator.getServiceLocator();
 		serviceLocator.getLogger().info("Application controller initialized");
@@ -426,8 +427,25 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	}
 
 	public void restoreList(ActionEvent e) {
-		model.loadDefaultCountryFile();
-		model.loadDefaultStatesFile();
+		boolean confirmation = false;
+		confirmation = view.getRestoreAlert();
+		if (confirmation) {
+			model.loadDefaultCountryFile();
+			model.loadDefaultStatesFile();
+			countries = model.getCountries();
+			for (Country c : countries) {
+				oCList.add(c);
+			}
+			states = model.getStates();
+			for (State s : states) {
+				oSList.add(s);
+			}
+		}
+	}
+
+	public void restoreUserList(ActionEvent e) {
+		model.loadUserCountryFile();
+		model.loadUserStatesFile();
 		countries = model.getCountries();
 		for (Country c : countries) {
 			oCList.add(c);
@@ -436,10 +454,14 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		for (State s : states) {
 			oSList.add(s);
 		}
+
 	}
-	
+
 	public void saveFile(ActionEvent e) {
-		model.saveFiles();
+		boolean confirmation = view.getSaveAlert();
+		if (confirmation) {
+			model.saveFiles();
+		}
 	}
 
 	// Methode löscht alle Eingabefelder
@@ -452,6 +474,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		view.txtStateArea.clear();
 		view.txtStatePopulation.clear();
 		view.cmbStatesGovernment.setValue(Government.none);
+		view.cmbCountries.setValue("none");
 		view.status.setText("");
 	}
 

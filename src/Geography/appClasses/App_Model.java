@@ -1,9 +1,12 @@
 package Geography.appClasses;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.Reader;
+import java.io.Writer;
 import java.util.ArrayList;
 
 import Geography.ServiceLocator;
@@ -28,6 +31,8 @@ public class App_Model extends Model {
 	private ArrayList<String> countryNames = new ArrayList<>();
 	private static String STATES_FILE = ("states.txt");
 	private static String COUNTRIES_FILE = ("countries.txt");
+	private static String USER_STATES_FILE = ("user_states.txt");
+	private static String USER_COUNTRIES_FILE = ("user_countries.txt");
 	private static String SEPARATOR = (";");
 	private ObservableList<State> states;
 	private ObservableList<Country> countries;
@@ -37,7 +42,7 @@ public class App_Model extends Model {
 		serviceLocator = ServiceLocator.getServiceLocator();
 		serviceLocator.getLogger().info("Application model initialized");
 	}
-	
+
 	public int getValue() {
 		return value;
 	}
@@ -100,10 +105,10 @@ public class App_Model extends Model {
 			String line = in.readLine();
 			while (line != null) {
 				String[] attributes = line.split(SEPARATOR);
-				int area = Integer.parseInt(attributes[0]);
-				int population = Integer.parseInt(attributes[1]);
-				String government = attributes[2];
-				String nameOfState = attributes[3];
+				String nameOfState = attributes[0];
+				int area = Integer.parseInt(attributes[1]);
+				int population = Integer.parseInt(attributes[2]);
+				String government = attributes[3];
 				String country = attributes[4];
 				State state = new State(nameOfState, area, population, Government.valueOf(government), country);
 				statesArray.add(state);
@@ -122,10 +127,10 @@ public class App_Model extends Model {
 			String line = in.readLine();
 			while (line != null) {
 				String[] attributes = line.split(SEPARATOR);
-				int area = Integer.parseInt(attributes[0]);
-				int population = Integer.parseInt(attributes[1]);
-				String government = attributes[2];
-				String nameOfCountry = attributes[3];
+				String nameOfCountry = attributes[0];
+				int area = Integer.parseInt(attributes[1]);
+				int population = Integer.parseInt(attributes[2]);
+				String government = attributes[3];
 				Country country = new Country(nameOfCountry, area, population, Government.valueOf(government));
 				countryArray.add(country);
 				line = in.readLine();
@@ -140,23 +145,102 @@ public class App_Model extends Model {
 		}
 	}
 
-	public void saveFiles() {
+	public void loadUserCountryFile() {
+		File countryFile = new File(USER_COUNTRIES_FILE);
+		try (Reader inReader = new FileReader(countryFile)) {
+			BufferedReader in = new BufferedReader(inReader);
+			this.countryArray.clear();
+			String line = in.readLine();
+			while (line != null) {
+				String[] attributes = line.split(SEPARATOR);
+				String nameOfCountry = attributes[0];
+				int area = Integer.parseInt(attributes[1]);
+				int population = Integer.parseInt(attributes[2]);
+				String government = attributes[3];
+				Country country = new Country(nameOfCountry, area, population, Government.valueOf(government));
+				countryArray.add(country);
+				line = in.readLine();
+				for (State s : this.statesArray) {
+					if (s.getCountry().equalsIgnoreCase(nameOfCountry)) {
+						country.addStateToCountry(s);
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-		
-		System.out.println("Menu save file chosen");
-		
-		
-		
+	public void loadUserStatesFile() {
+
+		File stateFile = new File(USER_STATES_FILE);
+		try (Reader inReader = new FileReader(stateFile)) {
+			BufferedReader in = new BufferedReader(inReader);
+			statesArray.clear();
+			String line = in.readLine();
+			while (line != null) {
+				String[] attributes = line.split(SEPARATOR);
+				String nameOfState = attributes[0];
+				int area = Integer.parseInt(attributes[1]);
+				int population = Integer.parseInt(attributes[2]);
+				String government = attributes[3];
+				String country = attributes[4];
+				State state = new State(nameOfState, area, population, Government.valueOf(government), country);
+				statesArray.add(state);
+				line = in.readLine();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void saveFiles() {
+		File stateFile = new File(USER_STATES_FILE);
+		File countryFile = new File(USER_COUNTRIES_FILE);
+		try (Writer writer = new FileWriter(stateFile)) {
+			if (statesArray != null) {
+				for (State s : statesArray) {
+					String name = s.getName();
+					String area = Integer.toString(s.getArea());
+					String population = Integer.toString(s.getPopulation());
+					String government = s.getGovernment();
+					String country = s.getCountry();
+					String line = name + ";" + area + ";" + population + ";" + government + ";" + country;
+					writer.write(line);
+					writer.write(System.lineSeparator());
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try (Writer countryWriter = new FileWriter(countryFile)) {
+			if (countryArray != null) {
+				for (Country c : countryArray) {
+					String name = c.getName();
+					String area = Integer.toString(c.getArea());
+					String population = Integer.toString(c.getPopulation());
+					String government = c.getGovernment();
+					String line = name + ";" + area + ";" + population + ";" + government;
+					countryWriter.write(line);
+					countryWriter.write(System.lineSeparator());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void initializeGlobalLists() {
 		loadDefaultStatesFile();
 		loadDefaultCountryFile();
 	}
+
 	public Country getCountry() {
 		return country;
 	}
-	
+
 	public State getState() {
 		return state;
 	}

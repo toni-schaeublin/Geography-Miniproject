@@ -42,6 +42,7 @@ public class App_View extends View<App_Model> {
 	Menu menuFileLanguage;
 	MenuItem menuFileSave;
 	MenuItem menuFileRestore;
+	MenuItem menuFileLoadUserList;
 	Menu menuHelp;
 	// Variablen für countryPane
 	GridPane countryPane;
@@ -92,6 +93,8 @@ public class App_View extends View<App_Model> {
 	private String alertDelete;
 	private String alertDeleteCanceled;
 	private String alertNotFound;
+	private String alertSave;
+	private String alertRestore;
 	
 	ListView<Country> countryList;
 	ListView<State> stateList;
@@ -109,8 +112,9 @@ public class App_View extends View<App_Model> {
 		this.menuFile = new Menu();
 		this.menuFileLanguage = new Menu();
 		this.menuFileSave = new MenuItem();
+		this.menuFileLoadUserList=new MenuItem();
 		this.menuFileRestore = new MenuItem();
-		this.menuFile.getItems().addAll(menuFileLanguage, menuFileSave, menuFileRestore);
+		this.menuFile.getItems().addAll(menuFileLanguage, menuFileSave, menuFileLoadUserList, menuFileRestore);
 		for (Locale locale : sl.getLocales()) {
 			MenuItem language = new MenuItem(locale.getLanguage());
 			menuFileLanguage.getItems().add(language);
@@ -165,6 +169,7 @@ public class App_View extends View<App_Model> {
 		menuFile.setText(t.getString("program.menu.file"));
 		menuFileLanguage.setText(t.getString("program.menu.file.language"));
 		menuFileSave.setText(t.getString("program.menu.file.save"));
+		menuFileLoadUserList.setText(t.getString("program.menu.file.load"));
 		menuFileRestore.setText(t.getString("program.menu.file.restore"));
 		menuHelp.setText(t.getString("program.menu.help"));
 		// Country Labels
@@ -205,6 +210,8 @@ public class App_View extends View<App_Model> {
 		alertDelete=t.getString("alertDelete");
 		alertDeleteCanceled=t.getString("alertDeleteCanceled");
 		alertNotFound=t.getString("alertNotFound");
+		alertSave=t.getString("alertSave");
+		alertRestore=t.getString("alertRestore");
 	}
 
 	private Pane getCountryPane() {
@@ -343,6 +350,33 @@ public class App_View extends View<App_Model> {
 		alert.setHeaderText(this.alertNotFound);
 		alert.showAndWait();
 	}
+	
+	public boolean getSaveAlert() {
+		updateTexts();
+		boolean confirmation = false;
+		Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
+		alert.setTitle("");
+		alert.setHeaderText(this.alertSave);
+		alert.showAndWait();
+		if (alert.getResult() == ButtonType.YES) {
+			confirmation = true;
+		}
+		return confirmation;
+	}
+	
+	public boolean getRestoreAlert() {
+		updateTexts();
+		boolean confirmation = false;
+		Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
+		alert.setTitle("");
+		alert.setHeaderText(this.alertRestore);
+		alert.showAndWait();
+		if (alert.getResult() == ButtonType.YES) {
+			confirmation = true;
+		}
+		return confirmation;
+	}
+	
 	
 	//----------------------------------getter für Alert-Texte die im controller benötigt werden
 	public String getAlertDeleteCanceled() {

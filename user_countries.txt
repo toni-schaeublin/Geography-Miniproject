@@ -1,0 +1,3 @@
+Schweiz;41285;8417700;Democracy
+Deutschland;357582;83166711;Democracy
+aaa;1;1;Democracy
