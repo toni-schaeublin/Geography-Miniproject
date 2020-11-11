@@ -9,7 +9,10 @@ import Geography.commonClasses.Translator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -85,6 +88,9 @@ public class App_View extends View<App_Model> {
 	private String lblExistsAllready;
 	private String lblDeleted;
 	private String noElement;
+	//Strings für Alerts
+	private String alertDelete;
+	private String alertDeleteCanceled;
 	
 	ListView<Country> countryList;
 	ListView<State> stateList;
@@ -193,6 +199,10 @@ public class App_View extends View<App_Model> {
 		lblExistsAllready = t.getString("status.lbl.existsAllready");
 		lblDeleted = t.getString("status.lbl.deleted");
 		noElement = t.getString("status.lbl.noElement");
+		
+		//Alerts
+		alertDelete=t.getString("alertDelete");
+		alertDeleteCanceled=t.getString("alertDeleteCanceled");
 
 	}
 
@@ -309,6 +319,25 @@ public class App_View extends View<App_Model> {
 
 	public String getlblnoElement() {
 		return this.noElement;
+	}
+	//---------------------------------Alerts------------------------------------------------------------
+	public Boolean getDeleteAlert() {
+		updateTexts();
+		boolean confirmation = false;
+		Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
+		alert.setTitle("");
+		alert.setHeaderText(alertDelete);
+		alert.showAndWait();
+		if (alert.getResult() == ButtonType.YES) {
+			confirmation = true;
+		}
+		return confirmation;
+
+	}
+	
+	//----------------------------------getter für Alert-Texte
+	public String getAlertDeleteCanceled() {
+		return alertDeleteCanceled;
 	}
 
 

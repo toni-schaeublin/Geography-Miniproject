@@ -11,6 +11,8 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.WindowEvent;
 
 /**
@@ -58,6 +60,9 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	private String lblExistsAllready;
 	private String lblDeleted;
 	private String noElement;
+
+	// Texte für Alerts
+	private String alertDeleteCanceled;
 
 	public App_Controller(App_Model model, App_View view) {
 		super(model, view);
@@ -296,6 +301,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	// Methode löscht ein Land aus der Liste
 	public void deleteCountry(ActionEvent e) {
 		if (e.getSource() == view.btnDeleteCountry) {
+			boolean confirmation = view.getDeleteAlert();
 			this.updateLbls();
 			boolean checker = false;
 			this.countries = model.getCountries();
@@ -311,11 +317,15 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				}
 			}
 			if (checker) {
-				this.countries.remove(result);
-				this.oCList.remove(result);
-				String name = nameOfCountry;
-				this.clearAllFields(e);
-				view.status.setText(name + " " + lblDeleted);
+				if (confirmation) {
+					this.countries.remove(result);
+					this.oCList.remove(result);
+					String name = nameOfCountry;
+					this.clearAllFields(e);
+					view.status.setText(name + " " + lblDeleted);
+				} else {
+					view.status.setText(view.getAlertDeleteCanceled());
+				}
 			} else {
 				view.status.setText(nameOfCountry + " " + noElement);
 			}
@@ -338,7 +348,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			boolean stateChecker = false;
 			this.states = model.getStates();
 			// prüfen ob alle Felder ausgefüllt sind...
-			if (txtStateNameTest && statePopulationTest && stateAreaTest && stateGovernmentTest) {
+			if (txtStateNameTest && statePopulationTest && stateAreaTest && stateGovernmentTest&&stateOfCountrytTest) {
 				// prüfen ob der Staat bereits existiert..
 				for (State s : this.states) {
 					if (s.getName().equalsIgnoreCase(nameOfState)) {
@@ -362,6 +372,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 	// Methode löscht einen Staat aus der Liste
 	public void deleteState(ActionEvent e) {
+		boolean confirmation = view.getDeleteAlert();
 		this.updateLbls();
 		if (e.getSource() == view.btnDeleteState) {
 			boolean checker = false;
@@ -378,10 +389,15 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				}
 			}
 			if (checker) {
-				this.states.remove(result);
-				this.oSList.remove(result);
-				String name = nameOfState;
-				view.status.setText(name + " " + lblDeleted);
+				if (confirmation) {
+					this.states.remove(result);
+					this.oSList.remove(result);
+					String name = nameOfState;
+					view.status.setText(name + " " + lblDeleted);
+				} else {
+					view.status.setText(view.getAlertDeleteCanceled());
+
+				}
 			} else {
 				view.status.setText(nameOfState + " " + noElement);
 			}
@@ -416,5 +432,6 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		lblExistsAllready = view.getlblExistsAllready();
 		lblDeleted = view.getlblDeleted();
 		noElement = view.getlblnoElement();
+		alertDeleteCanceled = view.getAlertDeleteCanceled();
 	}
 }
