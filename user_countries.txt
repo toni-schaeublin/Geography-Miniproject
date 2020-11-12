@@ -1,3 +1,6 @@
 Schweiz;41285;8417700;Democracy
 Deutschland;357582;83166711;Democracy
-aaa;1;1;Democracy
+Frankreich;123;123;Democracy
+Italien;123;123;Democracy
+Norwegen;123;123;Democracy
+Schweden;123;123;Democracy

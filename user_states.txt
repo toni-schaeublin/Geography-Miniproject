@@ -1,3 +1,25 @@
 Zürich;1729;1520968;Democracy;Schweiz
 Bern;5960;1034977;Democracy;Schweiz
 Luzern;1493;409557;Democracy;Schweiz
+Aargau;1234;1111;Democracy;Schweiz
+Solothurn;1234;1111;Democracy;Schweiz
+Thurgau;1234;1111;Democracy;Schweiz
+Graubünden;1234;1111;Democracy;Schweiz
+Obwalden;1234;1111;Democracy;Schweiz
+Nidwalden;1234;1111;Democracy;Schweiz
+Zug;1234;1111;Democracy;Schweiz
+Tessin;1234;1111;Democracy;Schweiz
+Neuenburg;1234;1111;Democracy;Schweiz
+Waadt;1234;1111;Democracy;Schweiz
+Genf;1234;1111;Democracy;Schweiz
+Appenzell AR;1234;1111;Democracy;Schweiz
+Appenzell AI;1234;1111;Democracy;Schweiz
+Schafhausen;1234;1111;Democracy;Schweiz
+Freiburg;1234;1111;Democracy;Schweiz
+Wallis;1234;1111;Democracy;Schweiz
+Schwyz;1234;1111;Democracy;Schweiz
+Uri;1234;1111;Democracy;Schweiz
+St. Gallen;1234;1111;Democracy;Schweiz
+Jura;1234;1111;Democracy;Schweiz
+Glarus;1234;1111;Democracy;Schweiz
+Baselland;1234;1111;Democracy;Schweiz
