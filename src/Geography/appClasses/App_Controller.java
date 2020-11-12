@@ -352,7 +352,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			if (txtNameTest && populationTest && txtAreaTest && governmentTest) {
 				// prüfen ob das Land bereits existiert..
 				for (Country c : this.countries) {
-					if (c.getNameOfCountry().equalsIgnoreCase(view.txtName.getText())) {
+					if (c.getName().equalsIgnoreCase(view.txtName.getText())) {
 						checkerOfCountry = true;
 					}
 					if (checkerOfCountry) {
@@ -361,7 +361,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 						int count = 0;
 						int result = 0;
 						for (Country c2 : countries) {
-							if (c2.getNameOfCountry().equalsIgnoreCase(nameOfCountry)) {
+							if (c2.getName().equalsIgnoreCase(nameOfCountry)) {
 								checkerOfCountry = true;
 								result = count;
 								count++;
@@ -471,7 +471,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			if (txtStateNameTest && statePopulationTest && stateAreaTest && stateGovernmentTest) {
 				// prüfen ob der Staat bereits existiert..
 				for (State s : this.states) {
-					if (s.getNameOfState().equalsIgnoreCase(nameOfState)) {
+					if (s.getName().equalsIgnoreCase(nameOfState)) {
 						checkerOfState = true;
 					}
 					if (checkerOfState) {
@@ -480,7 +480,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 						int count = 0;
 						int result = 0;
 						for (State s2 : states) {
-							if (s2.getNameOfState().equalsIgnoreCase(nameOfState)) {
+							if (s2.getName().equalsIgnoreCase(nameOfState)) {
 								checkerOfState = true;
 								result = count;
 								count++;
