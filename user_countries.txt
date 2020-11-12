@@ -4,3 +4,4 @@ Frankreich;123;123;Democracy
 Italien;123;123;Democracy
 Norwegen;123;123;Democracy
 Schweden;123;123;Democracy
+Türkei;44444;33333;Dictatorship
