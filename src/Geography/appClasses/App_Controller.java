@@ -119,13 +119,34 @@ public class App_Controller extends Controller<App_Model, App_View> {
 					view.countryList.getItems().add(c);
 			};
 		});
-		//Die Zeile wird geklickt und wird als Status augegeben.
-			(view.countryList).getSelectionModel().selectedItemProperty().addListener(
-					 (ObservableValue<? extends Country> ov, Country oldValue,
-					           Country newValue) -> {
-					        		view.status.setText("Angewählt: " + newValue);
-			
-		});
+		// Wenn in der ListView eine Zeile angeclickt wird, übernimmt es dies in die
+		// Textfelder
+		(view.countryList).getSelectionModel().selectedItemProperty()
+				.addListener((ObservableValue<? extends Country> ov, Country oldValue, Country newValue) -> {
+					String name = newValue.getName();
+					String area = Integer.toString(newValue.getArea());
+					String population = Integer.toString(newValue.getPopulation());
+					String gov = newValue.getGovernment();
+					view.txtName.setText(name);
+					view.txtArea.setText(area);
+					view.txtPopulation.setText(population);
+					view.cmbGovernment.setValue(Government.valueOf(gov));
+				});
+
+		view.stateList.getSelectionModel().selectedItemProperty()
+				.addListener((ObservableValue<? extends State> ov, State oldValue, State newValue) -> {
+					String name = newValue.getName();
+					String area = Integer.toString(newValue.getArea());
+					String population = Integer.toString(newValue.getPopulation());
+					String gov = newValue.getGovernment();
+					String country = newValue.getCountry();
+					view.txtStateName.setText(name);
+					view.txtStateArea.setText(area);
+					view.txtStatePopulation.setText(population);
+					view.cmbStatesGovernment.setValue(Government.valueOf(gov));
+					view.cmbCountries.setValue(country);
+				});
+
 		oSList.addListener(new ListChangeListener() {
 
 			public void onChanged(ListChangeListener.Change change) {
@@ -143,13 +164,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 			}
 		});
-		//Die Zeile wird geklickt und wird als Status augegeben.
-		(view.stateList).getSelectionModel().selectedItemProperty().addListener(
-				 (ObservableValue<? extends State> ov, State oldValue,
-				           State newValue) -> {
-				        		view.status.setText("" + newValue);
-				           });
-		
+	
 		view.txtName.textProperty().addListener((observable, oldValue, newValue) -> {
 			this.updateLbls();
 			this.nameOfCountry = newValue;
@@ -168,8 +183,6 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				this.txtNameTest = false;
 			}
 		});
-		
-		
 
 		view.txtArea.textProperty().addListener((observable, oldValue, newValue) -> {
 			this.updateLbls();
@@ -359,7 +372,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				}
 			}
 			model.setCountries(countries);
-		}deleteView();
+		}
+		deleteView();
 	}
 
 	// Methode fügt einem bestehenden Land neue Attribute hinzu...
@@ -404,12 +418,12 @@ public class App_Controller extends Controller<App_Model, App_View> {
 						}
 						model.setCountries(countries);
 					}
-						updateView();
+					updateView();
 
+				}
+			}
 		}
 	}
-	}
-		}
 
 	// Method fügt einen Staat in die Liste hinzu
 	public void addState(ActionEvent e) {
@@ -478,7 +492,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				}
 			}
 			model.setStates(states);
-		}deleteView();
+		}
+		deleteView();
 	}
 
 	// Methode fügt einem bestehenden Staat neue Attribute hinzu...
@@ -515,11 +530,12 @@ public class App_Controller extends Controller<App_Model, App_View> {
 							view.status.setText(nameOfState + " " + noElement);
 						}
 						model.setStates(states);
-					}updateView();
-						
 					}
+					updateView();
+
 				}
-			
+			}
+
 		}
 
 	}
@@ -587,7 +603,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		noElement = view.getlblnoElement();
 		alertDeleteCanceled = view.getAlertDeleteCanceled();
 	}
-	// updated Felder View, löscht die Area und Population. 		
+
+	// updated Felder View, löscht die Area und Population.
 	public void updateView() {
 		view.txtArea.clear();
 		view.txtPopulation.clear();
@@ -597,7 +614,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		view.cmbStatesGovernment.setValue(Government.none);
 		view.status.setText("");
 	}
-	//löscht alle Felder aus
+
+	// löscht alle Felder aus
 	public void deleteView() {
 		view.txtName.clear();
 		view.txtArea.clear();
@@ -609,4 +627,4 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		view.cmbStatesGovernment.setValue(Government.none);
 		view.status.setText("");
 	}
-	}
+}
