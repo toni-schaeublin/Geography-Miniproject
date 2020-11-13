@@ -147,7 +147,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		(view.stateList).getSelectionModel().selectedItemProperty().addListener(
 				 (ObservableValue<? extends State> ov, State oldValue,
 				           State newValue) -> {
-				        		view.status.setText("Angewählt: " + newValue);
+				        		view.status.setText("" + newValue);
 				           });
 		
 		view.txtName.textProperty().addListener((observable, oldValue, newValue) -> {
