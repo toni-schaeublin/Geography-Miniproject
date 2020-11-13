@@ -21,6 +21,9 @@
   -fx-text-fill: #800080;
   -fx-border-width: 0px;
 }
+#menubar{
+	-fx-min-height: 40px;
+}
 
 .vbox {
 	-fx-padding: 50px;
@@ -96,12 +99,14 @@
 }
 
 #countryControlsBox {
+	-fx-min-height: 45px;
 	-fx-border-insets: 5px;
 	-fx-border-color: black;
 	-fx-border-width: 2px;
 	-fx-background-color: #800080;
 }
 #stateControlsBox {
+	-fx-min-height: 45px;
 	-fx-border-insets: 5px;
 	-fx-border-color: black;
 	-fx-border-width: 2px;

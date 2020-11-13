@@ -133,6 +133,7 @@ public class App_View extends View<App_Model> {
 
 		menuHelp = new Menu();
 		menuBar.getMenus().addAll(menuFile, menuHelp);
+		menuBar.setId("menubar");
 		root.getChildren().add(menuBar);
 		countryList= new ListView<Country>();
 		countryList.setPrefWidth(450);
