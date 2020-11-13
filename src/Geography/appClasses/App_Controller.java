@@ -2,10 +2,14 @@ package Geography.appClasses;
 
 import java.util.ArrayList;
 
+import javax.swing.event.ChangeListener;
+
 import Geography.ServiceLocator;
 import Geography.abstractClasses.Controller;
 import Geography.commonClasses.Translator;
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -14,6 +18,8 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.SelectionModel;
+import javafx.scene.control.TextInputControl;
 import javafx.stage.WindowEvent;
 
 /**
@@ -111,9 +117,15 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				view.countryList.getItems().clear();
 				for (Country c : countries)
 					view.countryList.getItems().add(c);
-			}
+			};
 		});
-
+		//Die Zeile wird geklickt und wird als Status augegeben.
+			(view.countryList).getSelectionModel().selectedItemProperty().addListener(
+					 (ObservableValue<? extends Country> ov, Country oldValue,
+					           Country newValue) -> {
+					        		view.status.setText("Angewählt: " + newValue);
+			
+		});
 		oSList.addListener(new ListChangeListener() {
 
 			public void onChanged(ListChangeListener.Change change) {
@@ -131,7 +143,13 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 			}
 		});
-
+		//Die Zeile wird geklickt und wird als Status augegeben.
+		(view.stateList).getSelectionModel().selectedItemProperty().addListener(
+				 (ObservableValue<? extends State> ov, State oldValue,
+				           State newValue) -> {
+				        		view.status.setText("Angewählt: " + newValue);
+				           });
+		
 		view.txtName.textProperty().addListener((observable, oldValue, newValue) -> {
 			this.updateLbls();
 			this.nameOfCountry = newValue;
@@ -150,6 +168,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				this.txtNameTest = false;
 			}
 		});
+		
+		
 
 		view.txtArea.textProperty().addListener((observable, oldValue, newValue) -> {
 			this.updateLbls();
