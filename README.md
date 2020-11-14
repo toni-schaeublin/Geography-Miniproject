@@ -5,10 +5,12 @@ Projekt von: Berfin Güler, Antoine Schäublin
 
 Programm starten: Package Geography > Class JavaFX_App_Template
 
-Implementierte Funktionen:
+Wichtig!!! Die richtige Branch ist: tableView-Branch. Diese Branch ist als Default definiert....Aber man weiss nie.
+
+Implementierte Klassen:
 
 Abstrakte Klasse GovernedRegion
-Abgeleitete Klasse State mit Countryname ergänzt.
+Abgeleitete Klasse State mit zusätzllichen Attributen.
 Abgeleitete Klasse Country erstellt im Konstruktor eine ArrayList zum Speichern von State-Objekten...
 ENUM mit Regierungsformen
 
@@ -25,14 +27,15 @@ Usability:
 Ungültige oder nicht sinnvolle Benutzereingaben werden im Statusfeld reklamiert. Hinzufügen usw. ist nur möglich, wenn alle Felder korrekt ausgefüllt sind!
 Popup Alerts für kritische Aktionen (Löschen, zurücksetzen usw.)
 In ListViews werden alle bereits erfassten Objekte angezeigt.
+In der ListView kann man eine Zeile auswählen. Dann wird diese in die Textfelder übernommen.
 
 Mehrsprachigkeit:
-Das Programm wurde ins JAT integriert und mehrsprachig ergänzt...
+Das Programm wurde ins JAT (Vorlage von Bradley Richards) integriert und mehrsprachig ergänzt...
 
 Speichern usw.:
 Beim Programmstart wird automatisch eine Defaultliste geladen. 
 Der Benutzer kann seine Eingaben speichern und seine Liste laden. Die Benutzerlisten werden in csv-Files gespeichert.
-Der Benutzer kann die Listen auf de Defaultlisten zurücksetzen.
+Der Benutzer kann die Listen auf die Defaultlisten zurücksetzen.
 
 Design:
 Ein wenig CSS, um das GUI zu verschönern.... Liegt im Auge des Betrachters ;-)
